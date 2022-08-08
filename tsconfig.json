@@ -20,5 +20,5 @@
     "target": "es2017",
     "types": ["jest"]
   },
-  "include": ["src/*"]
+  "include": ["src/*", "src/kubernetes/*", "src/kubernetes/workloads/WorkloadManager.ts", "src/kubernetes/workloads/WorkloadComponents.tsx"]
 }

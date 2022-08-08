@@ -1,0 +1,7 @@
+{
+  "NotebookApp": {
+    "nbserver_extensions": {
+      "jupyterlab_k8s_explorer": true
+    }
+  }
+}

@@ -28,6 +28,11 @@ labext_name = pkg_json["name"]
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
     ("share/jupyter/labextensions/%s" % labext_name, str("."), "install.json"),
+    ("etc/jupyter/jupyter_server_config.d",
+     "jupyter-config/server-config", "jupyterlab_k8s_explorer.json"),
+    # For backward compatibility with notebook server
+    ("etc/jupyter/jupyter_notebook_config.d",
+     "jupyter-config/nb-config", "jupyterlab_k8s_explorer.json"),
 ]
 
 long_description = (HERE / "README.md").read_text(encoding="utf8")
@@ -51,6 +56,19 @@ setup_args = dict(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
+    install_requires=[
+        "jupyter_server>=1.6,<2",
+        "kubernetes_asyncio"
+    ],
+    extras_require={
+        "test": [
+            "coverage",
+            "pytest",
+            "pytest-asyncio",
+            "pytest-cov",
+            "pytest-tornasync"
+        ]
+    },
     zip_safe=False,
     include_package_data=True,
     python_requires=">=3.7",
