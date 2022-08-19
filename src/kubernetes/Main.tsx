@@ -29,7 +29,14 @@ class KubernetesMainComponent extends React.Component<MainProps, MainState> {
     }
 
     render(): JSX.Element {
-      return <MenuComponent setMenu={this.setCurrentMenu} />;
+      return <div>
+          <div className="menu-sidebar">
+            <MenuComponent setMenu={this.setCurrentMenu} />
+          </div>
+          <div className="content">
+
+          </div>
+        </div>
     }
 }
 

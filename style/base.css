@@ -45,4 +45,36 @@ html, body, section {
     align-items: center;
     justify-content: center;
     text-align: center;
-  }
+}
+
+.content {
+    float: right;
+}
+
+.sub-menu-item {
+    font-size: 90%;
+}
+
+.menu-sidebar {
+    overflow-y: scroll !important;
+    float: left;
+    width: 20vh;
+    height: 100vh;
+}
+
+.menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    text-align: left;
+    background-color: #e9e9e9;
+    border: 1;
+    border-radius: 1;
+    overflow-anchor: none;
+    background-repeat: no-repeat;
+    color: #1E1E1E;
+    --bs-btn-border-color: #fff;
+}
