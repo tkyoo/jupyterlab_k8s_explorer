@@ -2,7 +2,8 @@
 import React from 'react';
 import { ReactWidget } from '@jupyterlab/apputils';
 
-import { MenuComponent } from "./Menu"
+import { ContentManagerComponent } from "./contents/ContentManager"
+import { MenuComponent } from "./menu/Menu"
 
 type MainProps = {
 };
@@ -29,30 +30,16 @@ class KubernetesMainComponent extends React.Component<MainProps, MainState> {
     }
 
     render(): JSX.Element {
-      return <div>
+      return <div className="k8s-explorer-wrapper">
           <div className="menu-sidebar">
             <MenuComponent setMenu={this.setCurrentMenu} />
           </div>
           <div className="content">
-
+            <ContentManagerComponent currentContent={this.state.currentMenu} />
           </div>
         </div>
     }
 }
-
-// class NamespaceWidget extends ReactWidget {
-//     /**
-//      * Constructs a new CounterWidget.
-//      */
-//     constructor() {
-//       super();
-//       this.addClass('jp-ReactWidget');
-//     }
-  
-//     render(): JSX.Element {
-//       return <NamespaceComponent header="Test" />;
-//     }
-// }
 
 class KuberentesMainWidget extends ReactWidget {
     render(): JSX.Element {

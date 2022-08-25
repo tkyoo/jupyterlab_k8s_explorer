@@ -17,24 +17,25 @@ html, body, section {
 
 
 /* Pattern styles */
-.kubernetes-main {
-    display: flex;  
-    flex-direction: column;
-    justify-content: center;
+.k8s-explorer-wrapper {
+    display: flex;
 }
 
 .menu {
     background-color: #5A5A5A;
-    flex: 1;
+    flex: 2;
     padding: 1rem;
     resize: horizontal;
     float: left;
 }
 
 .content {
-    background-color: #1E1E1E;
-    flex: 9;
+    flex: 8;
     padding: 1rem;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 
 .jp-ReactWidget {
@@ -45,10 +46,6 @@ html, body, section {
     align-items: center;
     justify-content: center;
     text-align: center;
-}
-
-.content {
-    float: right;
 }
 
 .sub-menu-item {
