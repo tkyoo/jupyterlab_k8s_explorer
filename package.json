@@ -59,6 +59,7 @@
     "@jupyterlab/services": "^6.4.3",
     "@lumino/messaging": "^1.10.1",
     "@lumino/widgets": "^1.33.0",
+    "@uiw/react-codemirror": "^4.12.2",
     "bootstrap": "^5.2.0",
     "react-bootstrap": "^2.5.0"
   },

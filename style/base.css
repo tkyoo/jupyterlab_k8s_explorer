@@ -75,3 +75,7 @@ html, body, section {
     color: #1E1E1E;
     --bs-btn-border-color: #fff;
 }
+
+.modal-content {
+    width: fit-content
+}

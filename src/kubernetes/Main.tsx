@@ -2,7 +2,7 @@
 import React from 'react';
 import { ReactWidget } from '@jupyterlab/apputils';
 
-import { ContentManagerComponent } from "./contents/ContentManager"
+import { ContentManagerComponent } from "./contents/ContentManager";
 import { MenuComponent } from "./menu/Menu"
 
 type MainProps = {

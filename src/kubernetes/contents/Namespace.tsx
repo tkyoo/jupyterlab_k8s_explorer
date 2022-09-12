@@ -4,6 +4,7 @@ import Table from 'react-bootstrap/Table';
 import { requestAPI } from "../../handler";
 
 type NamespaceProps = {
+    clickItem: Function;
 };
 
 type NamespaceState = {
@@ -11,9 +12,9 @@ type NamespaceState = {
 };
 
 type NamespaceObject = {
-    metadata: {
-        name: string
-    }
+    metadata: any,
+    spec: any,
+    status: any
 };
 
 class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState> {
@@ -37,7 +38,7 @@ class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState>
         this.getNamespace();
 
         const rows = this.state.items.map((item, index) =>
-            <tr className="cursor-pointer" onClick={()=> console.log(item)}>
+            <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item);}}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>Labels</td>
