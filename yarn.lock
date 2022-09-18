@@ -1004,6 +1004,13 @@
     "@lezer/lr" "^1.0.0"
     "style-mod" "^4.0.0"
 
+"@codemirror/legacy-modes@^6.1.0":
+  "integrity" "sha512-V/PgGpndkZeTn3Hdlg/gd8MLFdyvTCIX+iwJzjUw5iNziWiNsAY8X0jvf7m3gSfxnKkNzmid6l0g4rYSpiDaCw=="
+  "resolved" "https://registry.npmjs.org/@codemirror/legacy-modes/-/legacy-modes-6.1.0.tgz"
+  "version" "6.1.0"
+  dependencies:
+    "@codemirror/language" "^6.0.0"
+
 "@codemirror/lint@^6.0.0":
   "integrity" "sha512-nUUXcJW1Xp54kNs+a1ToPLK8MadO0rMTnJB8Zk4Z8gBdrN0kqV7uvUraU/T2yqg+grDNR38Vmy/MrhQN/RgwiA=="
   "resolved" "https://registry.npmjs.org/@codemirror/lint/-/lint-6.0.0.tgz"
@@ -2243,6 +2250,11 @@
     "jest-diff" "^26.0.0"
     "pretty-format" "^26.0.0"
 
+"@types/js-yaml@^4.0.5":
+  "integrity" "sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA=="
+  "resolved" "https://registry.npmjs.org/@types/js-yaml/-/js-yaml-4.0.5.tgz"
+  "version" "4.0.5"
+
 "@types/json-schema@*", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.7", "@types/json-schema@^7.0.8":
   "integrity" "sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ=="
   "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.11.tgz"
@@ -2410,10 +2422,10 @@
     "@typescript-eslint/types" "4.33.0"
     "eslint-visitor-keys" "^2.0.0"
 
-"@uiw/codemirror-extensions-basic-setup@4.12.2":
-  "integrity" "sha512-XVBgPPTlSHlZmRGm1UpBxlEXe1hzFSuCtd+aC14FeNPSOjibzbwM3bQB2Jw4+CmZhvifyKdUtZOg6XP7FuCLng=="
-  "resolved" "https://registry.npmjs.org/@uiw/codemirror-extensions-basic-setup/-/codemirror-extensions-basic-setup-4.12.2.tgz"
-  "version" "4.12.2"
+"@uiw/codemirror-extensions-basic-setup@4.12.3":
+  "integrity" "sha512-Z6TXwX6IkNqXYdfMNo20lFN03tp8eLlUHlcuTCq/z5GpENbEt+l/bvnLj8RtHKZ0Ys75a/8rXamyZtHjJ8KgrA=="
+  "resolved" "https://registry.npmjs.org/@uiw/codemirror-extensions-basic-setup/-/codemirror-extensions-basic-setup-4.12.3.tgz"
+  "version" "4.12.3"
   dependencies:
     "@codemirror/autocomplete" "^6.0.0"
     "@codemirror/commands" "^6.0.0"
@@ -2423,16 +2435,32 @@
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.0.0"
 
-"@uiw/react-codemirror@^4.12.2":
-  "integrity" "sha512-wTEz1Gje1WxCwOZIMspcOe4Edke2jxTUgDF7Vv+YS/U0GyWXIoyylO8y2MY+5RsgFdYqY4ADt6u6Kj5X4y2d2w=="
-  "resolved" "https://registry.npmjs.org/@uiw/react-codemirror/-/react-codemirror-4.12.2.tgz"
-  "version" "4.12.2"
+"@uiw/codemirror-theme-sublime@^4.12.3":
+  "integrity" "sha512-NRyTPiVGQMNNRdo/GEypzubrhSreGcRjcwIrA+vS+QL6jVfPSomdOAru9yrGaV4wslswV+c3FaiCgiHEEgUecQ=="
+  "resolved" "https://registry.npmjs.org/@uiw/codemirror-theme-sublime/-/codemirror-theme-sublime-4.12.3.tgz"
+  "version" "4.12.3"
+  dependencies:
+    "@uiw/codemirror-themes" "4.12.3"
+
+"@uiw/codemirror-themes@4.12.3":
+  "integrity" "sha512-5jnhMzubDV6MxKt7bRrUNEE51wssOkDVefKgiok91udSFsbh3Ju3VcCv6abQ+oMPHf67sA84P2jJdK3hGwx8MQ=="
+  "resolved" "https://registry.npmjs.org/@uiw/codemirror-themes/-/codemirror-themes-4.12.3.tgz"
+  "version" "4.12.3"
+  dependencies:
+    "@codemirror/language" "^6.0.0"
+    "@codemirror/state" "^6.0.0"
+    "@codemirror/view" "^6.0.0"
+
+"@uiw/react-codemirror@^4.12.3":
+  "integrity" "sha512-Uk6/OdA3lkld0/BTGf+06UOw/HaHnCyUO51Fus9JOFOICRZ9doZU8J1Mja9QnDdH2ibFvCHPVWSqLlSA7FA/wg=="
+  "resolved" "https://registry.npmjs.org/@uiw/react-codemirror/-/react-codemirror-4.12.3.tgz"
+  "version" "4.12.3"
   dependencies:
     "@babel/runtime" "^7.18.6"
     "@codemirror/commands" "^6.1.0"
     "@codemirror/state" "^6.1.1"
     "@codemirror/theme-one-dark" "^6.0.0"
-    "@uiw/codemirror-extensions-basic-setup" "4.12.2"
+    "@uiw/codemirror-extensions-basic-setup" "4.12.3"
     "codemirror" "^6.0.0"
 
 "@verdaccio/commons-api@10.2.0":
@@ -6299,7 +6327,7 @@
     "argparse" "^1.0.7"
     "esprima" "^4.0.0"
 
-"js-yaml@4.1.0":
+"js-yaml@^4.1.0", "js-yaml@4.1.0":
   "integrity" "sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA=="
   "resolved" "https://registry.npmjs.org/js-yaml/-/js-yaml-4.1.0.tgz"
   "version" "4.1.0"

@@ -54,13 +54,15 @@
     "watch:labextension": "jupyter labextension watch ."
   },
   "dependencies": {
+    "@codemirror/legacy-modes": "^6.1.0",
     "@jupyterlab/application": "^3.4.3",
     "@jupyterlab/apputils": "^3.4.3",
     "@jupyterlab/services": "^6.4.3",
     "@lumino/messaging": "^1.10.1",
     "@lumino/widgets": "^1.33.0",
-    "@uiw/react-codemirror": "^4.12.2",
+    "@uiw/codemirror-theme-sublime": "^4.12.3",
     "bootstrap": "^5.2.0",
+    "js-yaml": "^4.1.0",
     "react-bootstrap": "^2.5.0"
   },
   "devDependencies": {
@@ -69,8 +71,10 @@
     "@jupyterlab/builder": "^3.1.0",
     "@jupyterlab/testutils": "^3.0.0",
     "@types/jest": "^26.0.0",
+    "@types/js-yaml": "^4.0.5",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
+    "@uiw/react-codemirror": "^4.12.3",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
