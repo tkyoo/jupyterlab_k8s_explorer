@@ -12,7 +12,7 @@ type DetailComponentProps = {
 
 type DetailComponentState = {
     openModal: boolean
-}
+};
 
 
 class DetailComponent extends React.Component<DetailComponentProps, DetailComponentState> {
@@ -35,7 +35,7 @@ class DetailComponent extends React.Component<DetailComponentProps, DetailCompon
 
     render() {
         return (
-        <Modal show={this.state.openModal} onHide={ () => this.openModal(false) } animation={false}>
+        <Modal show={this.state.openModal} dialogClassName="modal-fit-content" onHide={ () => this.openModal(false) } animation={false}>
             <Modal.Header closeButton>
                 <Modal.Title>{this.props.headers}</Modal.Title>
             </Modal.Header>

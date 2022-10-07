@@ -9,7 +9,7 @@ import { ServerConnection } from '@jupyterlab/services';
  * @param init Initial values for the request
  * @returns The response body interpreted as JSON
  */
-export async function requestAPI<T>(
+async function requestAPI<T>(
   endPoint = '',
   request: RequestInit = {}
 ): Promise<T> {
@@ -44,3 +44,61 @@ export async function requestAPI<T>(
 
   return data;
 }
+
+
+async function getObjectList(objectName:string) {
+  const data = await requestAPI<any>("k8s/get_object_list?" + new URLSearchParams({
+      object_name: objectName
+  }));
+
+  console.log(data);
+  return data
+}
+
+async function getNamespace() {
+  const data = await requestAPI<any>("k8s/get_namespace_list");
+
+  console.log(data);
+  return data
+}
+
+async function getGlobalObjectList(objectName:string) {
+  const data = await requestAPI<any>("k8s/get_global_object_list?" + new URLSearchParams({
+    object_name: objectName
+  }))
+
+  console.log(data);
+  return data;
+}
+
+async function readObject(objectName:string, namespace:string, name:string) {
+  const data = await requestAPI<any[]>("k8s/read_object?" + new URLSearchParams({
+      name: name,
+      object_name: objectName,
+      namespace: namespace
+  }));
+
+  console.log(data);
+  return data
+}
+
+async function readGlobalObject(objectName:string, name:string) {
+  const data = await requestAPI<any[]>("k8s/read_global_object?" + new URLSearchParams({
+      name: name,
+      object_name: objectName,
+  }));
+
+  console.log(data);
+  return data
+}
+
+async function readNamespace(name:string) {
+  const data = await requestAPI<any[]>("k8s/read_namespace?" + new URLSearchParams({
+      name: name,
+  }));
+
+  console.log(data);
+  return data
+}
+
+export {requestAPI, getObjectList, getNamespace, getGlobalObjectList, readObject, readGlobalObject, readNamespace}

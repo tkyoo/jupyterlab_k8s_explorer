@@ -9,6 +9,7 @@ class K8sManager(object):
             "app": client.AppsV1Api(),
             "batch": client.BatchV1Api(),
             "core": client.CoreV1Api(),
+            "Scheduling": client.SchedulingV1Api(),
         }
 
     def load_config(self):
@@ -18,12 +19,23 @@ class K8sManager(object):
         method_name = f"list_{object_name}_for_all_namespaces"
 
         result = None
-        for _, client in self.api_object:
+        for client in self.api_object.values():
             if method_name in dir(client):
-                result = getattr(client, method_name)()
+                result = getattr(client, method_name)().to_dict()
                 break
 
-        return result.to_dict()
+        return result
+
+    def list_global_object(self, object_name):
+        method_name = f"list_{object_name}"
+
+        result = None
+        for client in self.api_object.values():
+            if method_name in dir(client):
+                result = getattr(client, method_name)().to_dict()
+                break
+
+        return result
 
     def get_namespace_list(self):
         core = self.api_object["core"]
@@ -47,13 +59,24 @@ class K8sManager(object):
     def read_namespace(self, name):
         return self.api_object["core"].read_namespace(name).to_dict()
 
-    def read_namespaced_object(self, object_name, name):
+    def read_global_object(self, object_name, name):
+        method_name = f"read_{object_name}"
+
+        result = None
+        for client in self.api_object.values():
+            if method_name in dir(client):
+                result = getattr(client, method_name)(name=name)
+                break
+        
+        return result.to_dict()
+
+    def read_namespaced_object(self, object_name, namespace, name):
         method_name = f"read_namespaced_{object_name}"
 
         result = None
-        for _, client in self.api_object:
+        for client in self.api_object.values():
             if method_name in dir(client):
-                result = getattr(client, method_name)(name)
+                result = getattr(client, method_name)(namespace=namespace, name=name)
                 break
-        
+
         return result.to_dict()

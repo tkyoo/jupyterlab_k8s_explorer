@@ -68,13 +68,13 @@ class MenuComponent extends React.Component<MenuProps, MenuState> {
                 </Button>
                 <Collapse in={this.state.openWorkloads}>
                     <ListGroup className="sub-menu-item">
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("pods")} active={this.state.currentMenu == "pods"}> Pods </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("deployments")} active={this.state.currentMenu == "deployments"}> Deployments </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("daemonsets")} active={this.state.currentMenu == "daemonsets"}> DaemonSets </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("statefulsets")} active={this.state.currentMenu == "statefulsets"}> StatefulSets </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("replicasets")} active={this.state.currentMenu == "replicasets"}> ReplicaSets </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("jobs")} active={this.state.currentMenu == "jobs"}> Jobs </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("cronjobs")} active={this.state.currentMenu == "cronjobs"}> CronJobs </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("pod")} active={this.state.currentMenu == "pod"}> Pods </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("deployment")} active={this.state.currentMenu == "deployment"}> Deployments </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("daemon_set")} active={this.state.currentMenu == "daemon_set"}> DaemonSets </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("stateful_set")} active={this.state.currentMenu == "stateful_set"}> StatefulSets </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("replica_set")} active={this.state.currentMenu == "replica_set"}> ReplicaSets </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("job")} active={this.state.currentMenu == "job"}> Jobs </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("cron_job")} active={this.state.currentMenu == "cron_job"}> CronJobs </ListGroup.Item>
                     </ListGroup>
                 </Collapse>
                 <Button className="menu-item" onClick={(_) => this.openMenu("openConfig", !this.state.openConfig)} aria-expanded={this.state.openConfig} aria-controls="menu-item-config">
@@ -82,13 +82,13 @@ class MenuComponent extends React.Component<MenuProps, MenuState> {
                 </Button>
                 <Collapse in={this.state.openConfig}>
                     <ListGroup className="sub-menu-item">
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("configmaps")} active={this.state.currentMenu == "configmaps"}> ConfigMaps </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("secrets")} active={this.state.currentMenu == "secrets"}> Secrets </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("resourceQuotas")} active={this.state.currentMenu == "resourceQuotas"}> Resource Quotas </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("limitRanges")} active={this.state.currentMenu == "limitRanges"}> Limit Ranges </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("hpa")} active={this.state.currentMenu == "hpa"}> HPA </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("podDistruptionBudgets")} active={this.state.currentMenu == "podDistruptionBudgets"}> Pod Disruption Budgets </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("priorityClasses")} active={this.state.currentMenu == "priorityClasses"}> Priority Classes </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("config_map")} active={this.state.currentMenu == "config_map"}> ConfigMaps </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("secret")} active={this.state.currentMenu == "secret"}> Secrets </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("resource_quota")} active={this.state.currentMenu == "resource_quota"}> Resource Quotas </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("limit_range")} active={this.state.currentMenu == "limit_range"}> Limit Ranges </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("horizontal_pod_autoscaler")} active={this.state.currentMenu == "horizontal_pod_autoscaler"}> HPA </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("pod_disruption_budget")} active={this.state.currentMenu == "pod_disruption_budget"}> Pod Disruption Budgets </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("priority_class")} active={this.state.currentMenu == "priority_class"}> Priority Classes </ListGroup.Item>
                     </ListGroup>
                 </Collapse>
                 <Button className="menu-item" onClick={(_) => this.openMenu("openNetwork", !this.state.openNetwork)} aria-expanded={this.state.openNetwork} aria-controls="menu-item-network">
@@ -96,11 +96,10 @@ class MenuComponent extends React.Component<MenuProps, MenuState> {
                 </Button>
                 <Collapse in={this.state.openNetwork}>
                     <ListGroup className="sub-menu-item">
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("services")} active={this.state.currentMenu == "services"}> Services </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("endpoints")} active={this.state.currentMenu == "endpoints"}> Endpoints </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("ingresses")} active={this.state.currentMenu == "ingresses"}> Ingresses</ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("networkPolicies")} active={this.state.currentMenu == "networkPolicies"}> Network Policies </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("portForwarding")} active={this.state.currentMenu == "portForwarding"}> Port Forwarding </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("service")} active={this.state.currentMenu == "service"}> Services </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("endpoint")} active={this.state.currentMenu == "endpoint"}> Endpoints </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("ingress")} active={this.state.currentMenu == "ingress"}> Ingresses</ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("network_policy")} active={this.state.currentMenu == "network_policy"}> Network Policies </ListGroup.Item>
                     </ListGroup>
                 </Collapse>
                 <Button className="menu-item" onClick={(_) => this.openMenu("openStorage", !this.state.openStorage)} aria-expanded={this.state.openStorage} aria-controls="menu-item-storage">
@@ -108,12 +107,12 @@ class MenuComponent extends React.Component<MenuProps, MenuState> {
                 </Button>
                 <Collapse in={this.state.openStorage}>
                     <ListGroup className="sub-menu-item">
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("pvc")} active={this.state.currentMenu == "pvc"}> Persistent Volumn Claims </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("pv")} active={this.state.currentMenu == "pv"}> Persisten Volumes </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("storageClasses")} active={this.state.currentMenu == "storageClasses"}> Storage Classes</ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("persistent_volume_claim")} active={this.state.currentMenu == "persistent_volume_claim"}> Persistent Volumn Claims </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("persistent_volume")} active={this.state.currentMenu == "persistent_volume"}> Persisten Volumes </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("storage_class")} active={this.state.currentMenu == "storage_class"}> Storage Classes</ListGroup.Item>
                     </ListGroup>
                 </Collapse>
-                <Button className="menu-item" onClick={(_) => this.updateMenu("namespaces")}>
+                <Button className="menu-item" onClick={(_) => this.updateMenu("namespace")}>
                     Namespaces
                 </Button>
                 <Button className="menu-item" onClick={(_) => this.openMenu("openAccessControl", !this.state.openAccessControl)} aria-expanded={this.state.openAccessControl} aria-controls="menu-item-access-control">
@@ -121,46 +120,17 @@ class MenuComponent extends React.Component<MenuProps, MenuState> {
                 </Button>
                 <Collapse in={this.state.openAccessControl}>
                     <ListGroup className="sub-menu-item">
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("serviceAccounts")} active={this.state.currentMenu == "serviceAccounts"}> Service Accounts </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("clusterRoles")} active={this.state.currentMenu == "clusterRoles"}> Cluster Roles </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("roles")} active={this.state.currentMenu == "roles"}> Roles </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("clusterRoleBindings")} active={this.state.currentMenu == "clusterRoleBindings"}> Cluster Role Bindings </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("roleBindings")} active={this.state.currentMenu == "roleBindings"}> Role Bindings </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("podSecurityPolicies")} active={this.state.currentMenu == "podSecurityPolicies"}> Pod Security Policies </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("service_account")} active={this.state.currentMenu == "service_account"}> Service Accounts </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("cluster_role")} active={this.state.currentMenu == "cluster_role"}> Cluster Roles </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("role")} active={this.state.currentMenu == "role"}> Roles </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("cluster_role_binding")} active={this.state.currentMenu == "cluster_role_binding"}> Cluster Role Bindings </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("role_binding")} active={this.state.currentMenu == "role_binding"}> Role Bindings </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("pod_security_policy")} active={this.state.currentMenu == "pod_security_policy"}> Pod Security Policies </ListGroup.Item>
                     </ListGroup>
                 </Collapse>
             </div>
         )
     }
-
-    // return (
-    //     <Accordion defaultActiveKey="0">
-    //       <Accordion.Item eventKey="0">
-    //         <Accordion.Header>Accordion Item #1</Accordion.Header>
-    //         <Accordion.Body>
-    //           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    //           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-    //           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-    //           aliquip ex ea commodo consequat. Duis aute irure dolor in
-    //           reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-    //           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-    //           culpa qui officia deserunt mollit anim id est laborum.
-    //         </Accordion.Body>
-    //       </Accordion.Item>
-    //       <Accordion.Item eventKey="1">
-    //         <Accordion.Header>Accordion Item #2</Accordion.Header>
-    //         <Accordion.Body>
-    //           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-    //           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-    //           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-    //           aliquip ex ea commodo consequat. Duis aute irure dolor in
-    //           reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-    //           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-    //           culpa qui officia deserunt mollit anim id est laborum.
-    //         </Accordion.Body>
-    //       </Accordion.Item>
-    //     </Accordion>
-    //   );
 }
 
 export {MenuComponent};

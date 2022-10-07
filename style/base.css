@@ -76,6 +76,11 @@ html, body, section {
     --bs-btn-border-color: #fff;
 }
 
-.modal-content {
-    width: fit-content
+.modal-fit-content {
+    width: 55rem;
+    max-width: none!important;
+}
+
+.table-content {
+    word-break: break-all;
 }

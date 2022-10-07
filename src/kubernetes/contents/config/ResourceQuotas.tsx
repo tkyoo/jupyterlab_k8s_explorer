@@ -3,40 +3,43 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
 
-import { getGlobalObjectList, readGlobalObject} from "../../handler";
-import { CodeMirrorComponent } from '../../common/CodeMirror';
-import { DetailComponent } from "../../common/Detail";
+import { getObjectList, readObject } from "../../../handler";
+import { CodeMirrorComponent } from "../../../common/CodeMirror";
+import { DetailComponent } from "../../../common/Detail";
 
-type NamespaceProps = {
+type ResourceQuotaProps = {
     clickItem: Function,
+    objectName: string
 };
 
-type NamespaceState = {
+type ResourceQuotaState = {
     items: any[],
     currentItem: any,
 };
 
-type NamespaceObject = {
+type ResourceQuotaObject = {
     metadata: any,
     spec: any,
     status: any
 };
 
-class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState> {
+class ResourceQuotaComponent extends React.Component<ResourceQuotaProps, ResourceQuotaState> {
     child: React.RefObject<DetailComponent>;
+    objectName: string;
 
-    constructor(prop: NamespaceProps) {
+    constructor(prop: ResourceQuotaProps) {
         super(prop);
         this.state = {
             items: [],
             currentItem: null,
         };
         this.child = React.createRef();
-        this.getNamespace();
+        this.objectName = this.props.objectName;
+        this.getItemList();
     }
 
-    async getNamespace() {
-        const data = await getGlobalObjectList("namespace");
+    async getItemList() {
+        const data = await getObjectList(this.objectName);
 
         this.setState({
             ...this.state,
@@ -45,9 +48,7 @@ class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState>
     }
 
     async updateCurrentItem(item: any) {
-        const data = await readGlobalObject("namespace", item.metadata.name);
-
-        console.log(typeof(data), data);
+        const data = await readObject(this.objectName, item.metadata.namespace, item.metadata.name);
 
         this.setState({
             ...this.state,
@@ -64,7 +65,7 @@ class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState>
                     const innerRows = Object.keys(values).map( (key) => {
                         return <tr>
                             <td>{key}</td>
-                            <td>{JSON.stringify(values[key])}</td>
+                            <td className="table-content">{JSON.stringify(values[key])}</td>
                         </tr>
                     });
 
@@ -116,13 +117,13 @@ class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState>
     }
 
     render(): JSX.Element {
+        console.log(typeof(this.state.items), this.state.items);
         const rows = this.state.items.map((item, index) =>
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Labels</td>
+                <td>{item.metadata.namespace}</td>
                 <td>Age</td>
-                <td>Status</td>
             </tr>
         );
 
@@ -144,9 +145,8 @@ class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState>
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Labels</th>
+                            <th>Namespace</th>
                             <th>Age</th>
-                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -159,4 +159,4 @@ class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState>
     }
 }
 
-export {NamespaceObject, NamespaceComponent};
+export {ResourceQuotaObject, ResourceQuotaComponent};
