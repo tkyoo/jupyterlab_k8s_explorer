@@ -1,21 +1,11 @@
 import React from 'react';
 
+import { ClusterRoleComponent, ClusterRoleBindingComponent, RoleComponent, RoleBindingComponent, PodSecurityPolicyComponent, ServiceAccountComponent } from './access-control/Component';
+import { ConfigMapComponent, HPAComponent, LimitRangeComponent, PodDisruptionBudgetComponent, PriorityClassComponent, ResourceQuotaComponent, SecretComponent } from './config/Component';
+import { EndpointComponent, IngressComponent, NetworkPolicyComponent, ServiceComponent } from './network/Component';
+import { PVComponent, PVCComponent, StorageClassComponent } from './storage/Component';
+import { CronJobComponent, DaemonSetComponent, DeploymentComponent, JobComponent, PodComponent, ReplicaSetComponent, StatefulSetComponent} from './workloads/Component';
 import { NamespaceComponent } from './Namespace';
-// import { CommonWorkloadComponent } from './workloads/Common';
-import { DaemonSetComponent } from './workloads/DaemonSets';
-import { DeploymentComponent } from './workloads/Deployments';
-import { PodComponent } from './workloads/Pods';
-import { ReplicaSetComponent } from './workloads/ReplicaSets';
-import { StatefulSetComponent } from './workloads/StatefulSets';
-import { JobComponent } from './workloads/Jobs';
-import { CronJobComponent } from './workloads/CronJobs';
-import { ConfigMapComponent } from './config/ConfigMaps';
-import { SecretComponent } from './config/Secrets';
-import { ResourceQuotaComponent } from './config/ResourceQuotas';
-import { LimitRangeComponent } from './config/LimitRange';
-import { HPAComponent } from './config/hpa';
-import { PodDisruptionBudgetComponent } from './config/PodDistruptionBudget';
-import { PriorityClassComponent} from './config/PriorityClass';
 
 type ContentManagerProps = {
     currentContent?: string
@@ -42,14 +32,6 @@ class ContentManagerComponent extends React.Component<ContentManagerProps, Conte
     }
 
     setCurrentItem = (item:any) => {
-        console.log(item);
-        // this.setState(
-        //     {
-        //         ...this.state,
-        //         ["currentItem"]: item
-        //     }
-        // );
-
         this.setState(prevState => ({
             currentItem: {
               ...prevState.currentItem,
@@ -123,6 +105,58 @@ class ContentManagerComponent extends React.Component<ContentManagerProps, Conte
             }
             case "priority_class": {
                 content = <PriorityClassComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "service": {
+                content = <ServiceComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "endpoint": {
+                content = <EndpointComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "ingress": {
+                content = <IngressComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "network_policy": {
+                content = <NetworkPolicyComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "persistent_volume_claim": {
+                content = <PVCComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "persistent_volume": {
+                content = <PVComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "storage_class": {
+                content = <StorageClassComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "service_account": {
+                content = <ServiceAccountComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "cluster_role": {
+                content = <ClusterRoleComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "role": {
+                content = <RoleComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "cluster_role_binding": {
+                content = <ClusterRoleBindingComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "role_binding": {
+                content = <RoleBindingComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "pod_security_policy": {
+                content = <PodSecurityPolicyComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
                 break;
             }
             case "namespace": {

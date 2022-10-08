@@ -1,3 +1,5 @@
+from typing import Dict, List
+
 from kubernetes import client, config
 
 
@@ -9,8 +11,30 @@ class K8sManager(object):
             "app": client.AppsV1Api(),
             "batch": client.BatchV1Api(),
             "core": client.CoreV1Api(),
-            "Scheduling": client.SchedulingV1Api(),
+            "scheduling": client.SchedulingV1Api(),
+            "storage": client.StorageV1Api(),
+            "rbac_authorization": client.RbacAuthorizationV1Api()
         }
+
+    def _clean_null_key(self, dictionary: Dict):
+        def _iter_list(array):
+            for value in array:
+                if isinstance(value, dict):
+                    self._clean_null_key(value)
+                elif isinstance(value, list):
+                    _iter_list(value)
+
+        key_list = list(dictionary.keys())
+
+        for key in key_list:
+            value = dictionary[key]
+            
+            if isinstance(value, dict):
+                self._clean_null_key(value)
+            elif isinstance(value, list):
+                _iter_list(value)
+            elif value is None:
+                del dictionary[key]
 
     def load_config(self):
         config.load_config()
@@ -19,10 +43,17 @@ class K8sManager(object):
         method_name = f"list_{object_name}_for_all_namespaces"
 
         result = None
+        response = None
+
         for client in self.api_object.values():
             if method_name in dir(client):
-                result = getattr(client, method_name)().to_dict()
+                response = getattr(client, method_name)()
                 break
+        
+        if response:
+            result = response.to_dict()
+            self._clean_null_key(result)
+            
 
         return result
 
@@ -30,10 +61,15 @@ class K8sManager(object):
         method_name = f"list_{object_name}"
 
         result = None
+        response = None
         for client in self.api_object.values():
             if method_name in dir(client):
-                result = getattr(client, method_name)().to_dict()
+                response = getattr(client, method_name)()
                 break
+        
+        if response:
+            result = response.to_dict()
+            self._clean_null_key(result)
 
         return result
 
@@ -57,26 +93,45 @@ class K8sManager(object):
         )
 
     def read_namespace(self, name):
-        return self.api_object["core"].read_namespace(name).to_dict()
+        result = None
+        response = None
+
+        response = self.api_object["core"].read_namespace(name)
+
+        if response:
+            result = response.to_dict()
+            self._clean_null_key(result)
+
+        return result
 
     def read_global_object(self, object_name, name):
         method_name = f"read_{object_name}"
 
         result = None
+        response = None
         for client in self.api_object.values():
             if method_name in dir(client):
-                result = getattr(client, method_name)(name=name)
+                response = getattr(client, method_name)(name=name)
                 break
-        
-        return result.to_dict()
+
+        if response:
+            result = response.to_dict()
+            self._clean_null_key(result)
+
+        return result
 
     def read_namespaced_object(self, object_name, namespace, name):
         method_name = f"read_namespaced_{object_name}"
 
         result = None
+        response = None
         for client in self.api_object.values():
             if method_name in dir(client):
-                result = getattr(client, method_name)(namespace=namespace, name=name)
+                response = getattr(client, method_name)(namespace=namespace, name=name)
                 break
 
-        return result.to_dict()
+        if response:
+            result = response.to_dict()
+            self._clean_null_key(result)
+
+        return result

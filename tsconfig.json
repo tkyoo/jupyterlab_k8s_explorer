@@ -25,8 +25,11 @@
     "src/common/*",
     "src/kubernetes/*", 
     "src/kubernetes/contents/*", 
-    "src/kubernetes/contents/workloads/*",
+    "src/kubernetes/contents/access-control/*",
     "src/kubernetes/contents/config/*",
+    "src/kubernetes/contents/network/*",
+    "src/kubernetes/contents/storage/*",
+    "src/kubernetes/contents/workloads/*",
     "src/kubernetes/menu/*"
   ]
 }
