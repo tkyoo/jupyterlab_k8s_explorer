@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
@@ -54,6 +55,46 @@ class PodComponent extends React.Component<PodProps, PodState> {
             ...this.state,
             ["currentItem"]: data
         })
+    }
+
+    containerToStatusIcon(item: any) {
+        const containerStatusList = item.status.container_statuses;
+        const containerInfoList: any[] = [];
+
+        item.spec.containers.forEach( (value:any, index:number) => {
+            const currentName = value.name;
+
+            containerStatusList.forEach( (containerStatus: any) => {
+                if (containerStatus.name == currentName) {
+                    const variant = containerStatus.ready == true ? "success" : "warning"
+                    containerInfoList.push( <Button variant={variant}>{currentName}</Button>)
+                }
+            });
+        })
+
+        return containerInfoList;
+    }
+
+    sumRestartCount(item: any) {
+        let count : number = 0;
+
+        item.status.container_statuses.forEach( (containerStatus: any) => {
+            count += containerStatus.restart_count;
+        });
+
+        return count;
+    }
+
+    controlledBy(item: any) {
+        if (Array.isArray(item.metadata.owner_references)) {
+            if ( item.metadata.owner_references.length > 0 ) {
+                return item.metadata.owner_references[0].kind;
+            } else {
+                return "";
+            }
+        } else {
+            return "";
+        }
     }
 
     drawDetailContents(): JSX.Element {
@@ -122,14 +163,14 @@ class PodComponent extends React.Component<PodProps, PodState> {
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Namespace</td>
-                <td>Containers</td>
-                <td>Restarts</td>
-                <td>Controlled By</td>
-                <td>Node</td>
-                <td>QoS</td>
-                <td>Age</td>
-                <td>Status</td>
+                <td>{item.metadata.namespace}</td>
+                <td>{this.containerToStatusIcon(item)}</td>
+                <td>{this.sumRestartCount(item)}</td>
+                <td>{this.controlledBy(item)}</td>
+                <td>{item.spec.node_name}</td>
+                <td>{item.status.qos_class}</td>
+                <td>{item.metadata.creation_timestamp}</td>
+                <td>{item.status.phase}</td>
             </tr>
         );
 

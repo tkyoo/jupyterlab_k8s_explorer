@@ -126,7 +126,7 @@ class PVCComponent extends React.Component<PVCProps, PVCState> {
                 <td>Storage class</td>
                 <td>Size</td>
                 <td>Pods</td>
-                <td>Age</td>
+                <td>{item.metadata.creation_timestamp}</td>
                 <td>Status</td>
             </tr>
         );

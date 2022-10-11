@@ -56,6 +56,20 @@ class ClusterRoleBindingComponent extends React.Component<ClusterRoleBindingProp
         })
     }
 
+    bindings(item: any) {
+        if ( item.hasOwnProperty("subjects") ) {
+            const bindingList: string[] = [];
+
+            item.subjects.forEach( (subject: any) => {
+                bindingList.push(subject.name);
+            });
+
+            return bindingList.join(",");
+        } else {
+            return "";
+        }
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -122,9 +136,8 @@ class ClusterRoleBindingComponent extends React.Component<ClusterRoleBindingProp
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Value</td>
-                <td>Global Default</td>
-                <td>Age</td>
+                <td>{this.bindings(item)}</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 
@@ -146,8 +159,7 @@ class ClusterRoleBindingComponent extends React.Component<ClusterRoleBindingProp
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Value</th>
-                            <th>Global Default</th>
+                            <th>Bindings</th>
                             <th>Age</th>
                         </tr>
                     </thead>

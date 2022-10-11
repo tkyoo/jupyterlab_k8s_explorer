@@ -56,6 +56,10 @@ class ConfigMapComponent extends React.Component<ConfigMapProps, ConfigMapState>
         })
     }
 
+    dataKeys(item: any) {
+        return Object.keys(item.data).join(",");
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -123,8 +127,8 @@ class ConfigMapComponent extends React.Component<ConfigMapProps, ConfigMapState>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>Keys</td>
-                <td>Age</td>
+                <td>{this.dataKeys(item)}</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

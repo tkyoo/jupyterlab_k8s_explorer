@@ -122,7 +122,7 @@ class StatefulSetComponent extends React.Component<StatefulSetProps, StatefulSet
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Namespace</td>
+                <td>{item.metadata.namespace}</td>
                 <td>Pods</td>
                 <td>Replicas</td>
                 <td>Age</td>

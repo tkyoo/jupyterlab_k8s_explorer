@@ -55,6 +55,16 @@ class DeploymentComponent extends React.Component<DeploymentProps, DeploymentSta
             ["currentItem"]: data
         })
     }
+    
+    conditions(item: any) {
+        const conditionList : string[] = [];
+
+        item.status.conditions.forEach( (condition: any) => {
+            conditionList.push(condition.type);
+        })
+
+        return conditionList.join(",");
+    }
 
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
@@ -122,14 +132,11 @@ class DeploymentComponent extends React.Component<DeploymentProps, DeploymentSta
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Namespace</td>
-                <td>Containers</td>
-                <td>Restarts</td>
-                <td>Controlled By</td>
-                <td>Node</td>
-                <td>QoS</td>
-                <td>Age</td>
-                <td>Status</td>
+                <td>{item.metadata.namespace}</td>
+                <td>{item.status.available_replicas} / {item.status.replicas}</td>
+                <td>{item.spec.replicas}</td>
+                <td>{item.metadata.creation_timestamp}</td>
+                <td>{this.conditions(item)}</td>
             </tr>
         );
 
@@ -152,13 +159,10 @@ class DeploymentComponent extends React.Component<DeploymentProps, DeploymentSta
                             <th>#</th>
                             <th>Name</th>
                             <th>Namespace</th>
-                            <th>Containers</th>
-                            <th>Restarts</th>
-                            <th>Controlled By</th>
-                            <th>Node</th>
-                            <th>QoS</th>
+                            <th>Pods</th>
+                            <th>Replicas</th>
                             <th>Age</th>
-                            <th>Status</th>
+                            <th>Conditions</th>
                         </tr>
                     </thead>
                     <tbody>

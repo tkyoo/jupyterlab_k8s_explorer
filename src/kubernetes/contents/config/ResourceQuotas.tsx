@@ -123,7 +123,7 @@ class ResourceQuotaComponent extends React.Component<ResourceQuotaProps, Resourc
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>Age</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

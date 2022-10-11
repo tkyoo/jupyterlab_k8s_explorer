@@ -123,10 +123,7 @@ class LimitRangeComponent extends React.Component<LimitRangeProps, LimitRangeSta
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>Labels</td>
-                <td>Keys</td>
-                <td>Type</td>
-                <td>Age</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 
@@ -149,9 +146,6 @@ class LimitRangeComponent extends React.Component<LimitRangeProps, LimitRangeSta
                             <th>#</th>
                             <th>Name</th>
                             <th>Namespace</th>
-                            <th>Labels</th>
-                            <th>Keys</th>
-                            <th>Type</th>
                             <th>Age</th>
                         </tr>
                     </thead>

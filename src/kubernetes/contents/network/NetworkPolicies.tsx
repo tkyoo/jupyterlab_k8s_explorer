@@ -124,7 +124,7 @@ class NetworkPolicyComponent extends React.Component<NetworkPolicyProps, Network
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
                 <td>Policy Types</td>
-                <td>Age</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

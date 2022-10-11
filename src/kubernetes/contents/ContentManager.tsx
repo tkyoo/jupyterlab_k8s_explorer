@@ -111,7 +111,7 @@ class ContentManagerComponent extends React.Component<ContentManagerProps, Conte
                 content = <ServiceComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
                 break;
             }
-            case "endpoint": {
+            case "endpoints": {
                 content = <EndpointComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
                 break;
             }

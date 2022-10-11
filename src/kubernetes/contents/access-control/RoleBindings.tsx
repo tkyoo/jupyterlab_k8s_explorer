@@ -56,6 +56,20 @@ class RoleBindingComponent extends React.Component<RoleBindingProps, RoleBinding
         })
     }
 
+    bindings(item: any) {
+        if ( item.hasOwnProperty("subjects") ) {
+            const bindingList: string[] = [];
+
+            item.subjects.forEach( (subject: any) => {
+                bindingList.push(subject.name);
+            });
+
+            return bindingList.join(",");
+        } else {
+            return "";
+        }
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -123,8 +137,8 @@ class RoleBindingComponent extends React.Component<RoleBindingProps, RoleBinding
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>Bindings</td>
-                <td>Age</td>
+                <td>{this.bindings(item)}</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

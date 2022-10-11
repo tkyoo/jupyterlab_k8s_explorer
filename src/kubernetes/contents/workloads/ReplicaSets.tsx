@@ -122,11 +122,11 @@ class ReplicaSetComponent extends React.Component<ReplicaSetProps, ReplicaSetSta
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Namespace</td>
-                <td>Desired</td>
-                <td>Current</td>
-                <td>Ready</td>
-                <td>Age</td>
+                <td>{item.metadata.namespace}</td>
+                <td>{item.status.replicas}</td>
+                <td>{item.status.available_replicas}</td>
+                <td>{item.status.ready_replicas}</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

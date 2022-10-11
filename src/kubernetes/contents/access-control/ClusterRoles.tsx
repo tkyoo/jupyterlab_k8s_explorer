@@ -122,7 +122,7 @@ class ClusterRoleComponent extends React.Component<ClusterRoleProps, ClusterRole
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Age</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

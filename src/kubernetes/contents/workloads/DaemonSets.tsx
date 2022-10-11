@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
@@ -54,6 +55,18 @@ class DaemonSetComponent extends React.Component<DaemonSetProps, DaemonSetState>
             ...this.state,
             ["currentItem"]: data
         })
+    }
+
+    nodes(item: any) {
+        const nodeSelector = item.spec.template.spec.node_selector;
+        const nodeSelectorKeys = Object.keys(nodeSelector);
+        const result : any[] = [];
+
+        nodeSelectorKeys.forEach( (key: string) => {
+            result.push(<Button variant="secondary">{key}={nodeSelector[key]}</Button>);
+        });
+
+        return result
     }
 
     drawDetailContents(): JSX.Element {
@@ -122,11 +135,10 @@ class DaemonSetComponent extends React.Component<DaemonSetProps, DaemonSetState>
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Namespace</td>
-                <td>Pods</td>
-                <td>Replicas</td>
-                <td>Age</td>
-                <td>Conditions</td>
+                <td>{item.metadata.namespace}</td>
+                <td>{item.status.number_available}</td>
+                <td>{this.nodes(item)}</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 
@@ -150,9 +162,8 @@ class DaemonSetComponent extends React.Component<DaemonSetProps, DaemonSetState>
                             <th>Name</th>
                             <th>Namespace</th>
                             <th>Pods</th>
-                            <th>Replicas</th>
+                            <th>Node Selector</th>
                             <th>Age</th>
-                            <th>Conditions</th>
                         </tr>
                     </thead>
                     <tbody>

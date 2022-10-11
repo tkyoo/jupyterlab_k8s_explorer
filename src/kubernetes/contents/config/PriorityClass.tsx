@@ -56,6 +56,14 @@ class PriorityClassComponent extends React.Component<PriorityClassProps, Priorit
         })
     }
 
+    globalDefault(item: any) {
+        if ( item.hasOwnProperty("global_default") ) {
+            return item.global_default ? "true" : "false";
+        } else {
+            return "false";
+        }
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -122,9 +130,9 @@ class PriorityClassComponent extends React.Component<PriorityClassProps, Priorit
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Value</td>
-                <td>Global Default</td>
-                <td>Age</td>
+                <td>{item.value}</td>
+                <td>{item.hasOwnProperty("global_default") ? item.global_default : false }</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

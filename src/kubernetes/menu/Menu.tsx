@@ -97,7 +97,7 @@ class MenuComponent extends React.Component<MenuProps, MenuState> {
                 <Collapse in={this.state.openNetwork}>
                     <ListGroup className="sub-menu-item">
                         <ListGroup.Item action onClick={(_) => this.updateMenu("service")} active={this.state.currentMenu == "service"}> Services </ListGroup.Item>
-                        <ListGroup.Item action onClick={(_) => this.updateMenu("endpoint")} active={this.state.currentMenu == "endpoint"}> Endpoints </ListGroup.Item>
+                        <ListGroup.Item action onClick={(_) => this.updateMenu("endpoints")} active={this.state.currentMenu == "endpoints"}> Endpoints </ListGroup.Item>
                         <ListGroup.Item action onClick={(_) => this.updateMenu("ingress")} active={this.state.currentMenu == "ingress"}> Ingresses</ListGroup.Item>
                         <ListGroup.Item action onClick={(_) => this.updateMenu("network_policy")} active={this.state.currentMenu == "network_policy"}> Network Policies </ListGroup.Item>
                     </ListGroup>

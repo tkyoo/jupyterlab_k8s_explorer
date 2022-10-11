@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
@@ -54,6 +55,52 @@ class ServiceComponent extends React.Component<ServiceProps, ServiceState> {
             ...this.state,
             ["currentItem"]: data
         })
+    }
+
+    conditions(item: any) {
+        if ( item.status.hasOwnProperty("conditions") ) {
+            return "Pending"
+        } else {
+            return "Active"
+        }
+    }
+
+    externalIPs(item: any) {
+        if (item.spec.hasOwnProperty("external_i_ps")) {
+            return item.spec.external_i_ps.join(",");
+        } else {
+            return "-";
+        }
+    }
+
+    ports(item: any) {
+        const portList : string[] = [];
+
+        item.spec.ports.forEach( (port : any) => {
+            if ( port.port == port.target_port ) {
+                portList.push(port.port.toString() + "/" + port.protocol);
+            } else {
+                portList.push(port.port.toString() + ":" + port.target_port.toString() + "/" + port.protocol);
+            }
+        });
+
+        return portList.join(",");
+    }
+
+    selector(item: any) {
+        if ( item.spec.hasOwnProperty("selector") ) {
+            const selector = item.spec.selector;
+            const selectorKeys = Object.keys(selector);
+            const result : any[] = [];
+
+            selectorKeys.forEach( (key: string) => {
+                result.push(<Button variant="secondary">{key}={selector[key]}</Button>);
+            });
+
+            return result
+        } else {
+            return "";
+        }
     }
 
     drawDetailContents(): JSX.Element {
@@ -123,13 +170,13 @@ class ServiceComponent extends React.Component<ServiceProps, ServiceState> {
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>Type</td>
-                <td>Cluster IP</td>
-                <td>Ports</td>
-                <td>External IP</td>
-                <td>Selector</td>
-                <td>Age</td>
-                <td>Status</td>
+                <td>{item.spec.type}</td>
+                <td>{item.spec.cluster_ip}</td>
+                <td>{this.ports(item)}</td>
+                <td>{this.externalIPs(item)}</td>
+                <td>{this.selector(item)}</td>
+                <td>{item.metadata.creation_timestamp}</td>
+                <td>{this.conditions(item)}</td>
             </tr>
         );
 

@@ -58,6 +58,18 @@ class StorageClassComponent extends React.Component<StorageClassProps, StorageCl
         })
     }
 
+    checkDefault(item: any) {
+        if ( item.metadata.hasOwnProperty("annotations") ) {
+            if ( item.metadata.annotations.hasOwnProperty("storageclass.kubernetes.io/is-default-class") ) {
+                if ( item.metadata.annotations["storageclass.kubernetes.io/is-default-class"] == "true" ) {
+                    return "true"
+                }
+            }
+        }
+
+        return "false"
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -123,10 +135,10 @@ class StorageClassComponent extends React.Component<StorageClassProps, StorageCl
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Provisioner</td>
-                <td>Reclaim Policy</td>
-                <td>Default</td>
-                <td>Age</td>
+                <td>{item.provisioner}</td>
+                <td>{item.reclaim_policy}</td>
+                <td>{this.checkDefault(item)}</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

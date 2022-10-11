@@ -56,6 +56,24 @@ class EndpointComponent extends React.Component<EndpointProps, EndpointState> {
         })
     }
 
+    endpoints(item: any) {
+        if ( item.hasOwnProperty("subsets") ) {
+            const endpointList : string[] = [];
+
+            item.subsets.forEach( (subset: any) => {
+                const ip = subset.addresses[0].ip;
+                
+                subset.ports.forEach( (port: any) => {
+                    endpointList.push(ip + ":" + port.toString());
+                });
+            });
+
+            return endpointList.join(",");
+        } else {
+            return "-";
+        }
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -124,7 +142,7 @@ class EndpointComponent extends React.Component<EndpointProps, EndpointState> {
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
                 <td>Endpoints</td>
-                <td>Age</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

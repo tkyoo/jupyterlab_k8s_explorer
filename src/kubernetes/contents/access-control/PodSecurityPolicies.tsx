@@ -124,7 +124,7 @@ class PodSecurityPolicyComponent extends React.Component<PodSecurityPolicyProps,
                 <td>{item.metadata.name}</td>
                 <td>Privileged</td>
                 <td>Volumes</td>
-                <td>Age</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

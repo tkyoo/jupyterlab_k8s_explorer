@@ -125,7 +125,7 @@ class IngressComponent extends React.Component<IngressProps, IngressState> {
                 <td>{item.metadata.namespace}</td>
                 <td>LoadBalancers</td>
                 <td>Rules</td>
-                <td>Age</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

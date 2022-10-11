@@ -46,9 +46,9 @@ class DetailComponent extends React.Component<DetailComponentProps, DetailCompon
                 <Button variant="secondary" onClick={ () => this.openModal(false) }>
                     Close
                 </Button>
-                <Button variant="primary" onClick={ () => { this.props.confirmEvent(); this.openModal(false) } }>
+                {/* <Button variant="primary" onClick={ () => { this.props.confirmEvent(); this.openModal(false) } }>
                     Confirm
-                </Button>
+                </Button> */}
             </Modal.Footer>
         </Modal>
         )
