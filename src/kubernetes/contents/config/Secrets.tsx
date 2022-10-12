@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
@@ -54,6 +55,22 @@ class SecretComponent extends React.Component<SecretProps, SecretState> {
             ...this.state,
             ["currentItem"]: data
         })
+    }
+
+    dataKeys(item: any) {
+        return Object.keys(item.data).join(",");
+    }
+
+    labels(item: any) {
+        const labels = item.metadata.labels;
+        const labelsKeys = Object.keys(labels);
+        const result : any[] = [];
+
+        labelsKeys.forEach( (key: string) => {
+            result.push(<Button variant="secondary">{key}={labels[key]}</Button>);
+        });
+
+        return result
     }
 
     drawDetailContents(): JSX.Element {
@@ -124,9 +141,9 @@ class SecretComponent extends React.Component<SecretProps, SecretState> {
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
                 <td>Labels</td>
-                <td>Keys</td>
-                <td>Type</td>
-                <td>Age</td>
+                <td>{this.dataKeys(item)}</td>
+                <td>{item.type}</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

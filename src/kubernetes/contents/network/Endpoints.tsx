@@ -64,7 +64,7 @@ class EndpointComponent extends React.Component<EndpointProps, EndpointState> {
                 const ip = subset.addresses[0].ip;
                 
                 subset.ports.forEach( (port: any) => {
-                    endpointList.push(ip + ":" + port.toString());
+                    endpointList.push(ip + ":" + port.port.toString());
                 });
             });
 
@@ -141,7 +141,7 @@ class EndpointComponent extends React.Component<EndpointProps, EndpointState> {
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>Endpoints</td>
+                <td>{this.endpoints(item)}</td>
                 <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );

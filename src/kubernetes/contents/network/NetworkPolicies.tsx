@@ -123,7 +123,7 @@ class NetworkPolicyComponent extends React.Component<NetworkPolicyProps, Network
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>Policy Types</td>
+                <td>{item.spec.policy_types}</td>
                 <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );

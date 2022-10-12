@@ -56,6 +56,22 @@ class PodDisruptionBudgetComponent extends React.Component<PodDisruptionBudgetPr
         })
     }
 
+    maxAvailable(item: any) {
+        if ( item.spec.hasOwnProperty("max_unavailable") ) {
+            return item.spec.max_unavailable;
+        } else {
+            return "N/A"
+        }
+    }
+
+    minAvailable(item: any) {
+        if ( item.spec.hasOwnProperty("min_unavailable") ) {
+            return item.spec.min_unavailable;
+        } else {
+            return "N/A"
+        }
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -123,11 +139,11 @@ class PodDisruptionBudgetComponent extends React.Component<PodDisruptionBudgetPr
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>Min Available</td>
-                <td>Max Unavailable</td>
-                <td>Current Healthy</td>
-                <td>Desired Healthy</td>
-                <td>Age</td>
+                <td>{this.minAvailable(item)}</td>
+                <td>{this.maxAvailable(item)}</td>
+                <td>{item.status.current_healthy}</td>
+                <td>{item.status.desired_healthy}</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

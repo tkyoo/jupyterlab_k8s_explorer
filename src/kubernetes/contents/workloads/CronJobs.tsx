@@ -121,12 +121,12 @@ class CronJobComponent extends React.Component<CronJobProps, CronJobState> {
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Namespace</td>
+                <td>{item.metadata.namespace}</td>
                 <td>Schedule</td>
                 <td>Suspend</td>
                 <td>Active</td>
                 <td>Last schedule</td>
-                <td>Age</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

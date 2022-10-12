@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
@@ -9,6 +10,7 @@ import { DetailComponent } from "../../common/Detail";
 
 type NamespaceProps = {
     clickItem: Function,
+    objectName: string
 };
 
 type NamespaceState = {
@@ -24,6 +26,7 @@ type NamespaceObject = {
 
 class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState> {
     child: React.RefObject<DetailComponent>;
+    objectName: string;
 
     constructor(prop: NamespaceProps) {
         super(prop);
@@ -32,11 +35,12 @@ class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState>
             currentItem: null,
         };
         this.child = React.createRef();
-        this.getNamespace();
+        this.objectName = this.props.objectName;
+        this.getItemList();
     }
 
-    async getNamespace() {
-        const data = await getGlobalObjectList("namespace");
+    async getItemList() {
+        const data = await getGlobalObjectList(this.objectName);
 
         this.setState({
             ...this.state,
@@ -45,14 +49,24 @@ class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState>
     }
 
     async updateCurrentItem(item: any) {
-        const data = await readGlobalObject("namespace", item.metadata.name);
-
-        console.log(typeof(data), data);
+        const data = await readGlobalObject(this.objectName, item.metadata.name);
 
         this.setState({
             ...this.state,
             ["currentItem"]: data
         })
+    }
+
+    labels(item: any) {
+        const labels = item.metadata.labels;
+        const labelsKeys = Object.keys(labels);
+        const result : any[] = [];
+
+        labelsKeys.forEach( (key: string) => {
+            result.push(<Button variant="secondary">{key}={labels[key]}</Button>);
+        });
+
+        return result
     }
 
     drawDetailContents(): JSX.Element {
@@ -64,7 +78,7 @@ class NamespaceComponent extends React.Component<NamespaceProps, NamespaceState>
                     const innerRows = Object.keys(values).map( (key) => {
                         return <tr>
                             <td>{key}</td>
-                            <td>{JSON.stringify(values[key])}</td>
+                            <td className="table-content">{JSON.stringify(values[key])}</td>
                         </tr>
                     });
 

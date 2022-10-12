@@ -56,6 +56,10 @@ class StatefulSetComponent extends React.Component<StatefulSetProps, StatefulSet
         })
     }
 
+    pods(item: any) {
+        return item.status.ready_replicas;
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -123,9 +127,9 @@ class StatefulSetComponent extends React.Component<StatefulSetProps, StatefulSet
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>Pods</td>
-                <td>Replicas</td>
-                <td>Age</td>
+                <td>{this.pods(item)}</td>
+                <td>{item.spec.replicas}</td>
+                <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );
 

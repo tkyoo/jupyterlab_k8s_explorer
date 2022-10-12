@@ -130,8 +130,6 @@ class ServiceAccountComponent extends React.Component<ServiceAccountProps, Servi
         let detailContent;
         const drawDetailContent = this.state.currentItem != null;
 
-        console.log(this.state);
-
         if ( drawDetailContent ) {
             detailContent = this.drawDetailContents();
         } else {

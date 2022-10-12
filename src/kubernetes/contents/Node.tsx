@@ -3,31 +3,31 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
 
-import { getObjectList, readObject } from "../../../handler";
-import { CodeMirrorComponent } from "../../../common/CodeMirror";
-import { DetailComponent } from "../../../common/Detail";
+import { getGlobalObjectList, readGlobalObject} from "../../handler";
+import { CodeMirrorComponent } from '../../common/CodeMirror';
+import { DetailComponent } from "../../common/Detail";
 
-type JobProps = {
+type NodeProps = {
     clickItem: Function,
     objectName: string
 };
 
-type JobState = {
+type NodeState = {
     items: any[],
     currentItem: any,
 };
 
-type JobObject = {
+type NodeObject = {
     metadata: any,
     spec: any,
     status: any
 };
 
-class JobComponent extends React.Component<JobProps, JobState> {
+class NodeComponent extends React.Component<NodeProps, NodeState> {
     child: React.RefObject<DetailComponent>;
     objectName: string;
 
-    constructor(prop: JobProps) {
+    constructor(prop: NodeProps) {
         super(prop);
         this.state = {
             items: [],
@@ -39,7 +39,7 @@ class JobComponent extends React.Component<JobProps, JobState> {
     }
 
     async getItemList() {
-        const data = await getObjectList(this.objectName);
+        const data = await getGlobalObjectList(this.objectName);
 
         this.setState({
             ...this.state,
@@ -48,7 +48,7 @@ class JobComponent extends React.Component<JobProps, JobState> {
     }
 
     async updateCurrentItem(item: any) {
-        const data = await readObject(this.objectName, item.metadata.namespace, item.metadata.name);
+        const data = await readGlobalObject(this.objectName, item.metadata.name);
 
         this.setState({
             ...this.state,
@@ -117,22 +117,17 @@ class JobComponent extends React.Component<JobProps, JobState> {
     }
 
     render(): JSX.Element {
-        console.log(typeof(this.state.items), this.state.items);
         const rows = this.state.items.map((item, index) =>
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>{item.metadata.namespace}</td>
-                <td>Completions</td>
+                <td>{item.status.node_info.kubelet_version}</td>
                 <td>{item.metadata.creation_timestamp}</td>
-                <td>Conditions</td>
             </tr>
         );
 
         let detailContent;
         const drawDetailContent = this.state.currentItem != null;
-
-        console.log(this.state);
 
         if ( drawDetailContent ) {
             detailContent = this.drawDetailContents();
@@ -147,10 +142,8 @@ class JobComponent extends React.Component<JobProps, JobState> {
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Namespace</th>
-                            <th>Completions</th>
+                            <th>Version</th>
                             <th>Age</th>
-                            <th>Conditions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -163,4 +156,4 @@ class JobComponent extends React.Component<JobProps, JobState> {
     }
 }
 
-export {JobObject, JobComponent};
+export {NodeObject, NodeComponent};

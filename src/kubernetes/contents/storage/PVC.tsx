@@ -56,6 +56,14 @@ class PVCComponent extends React.Component<PVCProps, PVCState> {
         })
     }
 
+    size(item: any) {
+        return item.spec.resources.requests.storage;
+    }
+
+    storageClassName(item: any) {
+        return item.spec.storage_class_name;
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -123,11 +131,11 @@ class PVCComponent extends React.Component<PVCProps, PVCState> {
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>Storage class</td>
-                <td>Size</td>
-                <td>Pods</td>
+                <td>{this.storageClassName(item)}</td>
+                <td>{this.size(item)}</td>
+                <td>{item.spec.volume_name}</td>
                 <td>{item.metadata.creation_timestamp}</td>
-                <td>Status</td>
+                <td>{item.status.phase}</td>
             </tr>
         );
 
@@ -152,7 +160,7 @@ class PVCComponent extends React.Component<PVCProps, PVCState> {
                             <th>Namespace</th>
                             <th>Storage class</th>
                             <th>Size</th>
-                            <th>Pods</th>
+                            <th>Volume</th>
                             <th>Age</th>
                             <th>Status</th>
                         </tr>

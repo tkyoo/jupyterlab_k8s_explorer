@@ -41,10 +41,12 @@ class IngressComponent extends React.Component<IngressProps, IngressState> {
     async getItemList() {
         const data = await getObjectList(this.objectName);
 
-        this.setState({
-            ...this.state,
-            ["items"]: data.items
-        })
+        if ( data != null ) {
+            this.setState({
+                ...this.state,
+                ["items"]: data.items
+            })
+        }
     }
 
     async updateCurrentItem(item: any) {
@@ -54,6 +56,42 @@ class IngressComponent extends React.Component<IngressProps, IngressState> {
             ...this.state,
             ["currentItem"]: data
         })
+    }
+
+    loadBalancer(item: any) {
+        if ( item.status.hasOwnProperty("load_balancer") ) {
+            if ( item.status.load_balancer.hasOwnProperty("ingress") ) {
+                if ( item.status.load_balancer.ingress.length > 0 ) {
+                    return item.status.load_balancer.ingress[0].hostname;
+                }
+            }
+        }
+
+        return "";
+    }
+
+    rules(item: any) {
+        if ( item.spec.hasOwnProperty("rules") ) {
+            item.spec.rules.forEach( (rule: any) => {
+                const hostName = rule.host;
+                const pathList: string[] = [];
+                rule.http.paths.forEach( (pathObject:any) => {
+                    const path = pathObject.path;
+
+                    if ( pathObject.backend.hasOwnProperty("resource") ) {
+                        pathList.push("http://" + hostName + path + "->" + pathObject.backend.resource.name);
+                    } else if ( pathObject.backend.hasOwnProperty("service") ) {
+                        const name = pathObject.backend.service.name;
+                        const port = pathObject.backend.service.port.hasOwnProperty("name") ? pathObject.backend.service.port.name : pathObject.backend.service.port.number;
+                        pathList.push("http://" + hostName + path + "->" + name + ":" + port);
+                    }
+                });
+
+                return pathList.join("\n");
+            });
+        } else {
+            return "";
+        }
     }
 
     drawDetailContents(): JSX.Element {
@@ -123,8 +161,8 @@ class IngressComponent extends React.Component<IngressProps, IngressState> {
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
                 <td>{item.metadata.namespace}</td>
-                <td>LoadBalancers</td>
-                <td>Rules</td>
+                <td>{this.loadBalancer(item)}</td>
+                <td>{this.rules(item)}</td>
                 <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );

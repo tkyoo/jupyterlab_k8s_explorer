@@ -57,10 +57,7 @@ class MenuComponent extends React.Component<MenuProps, MenuState> {
     render() {
         return (
             <div id="menu-items">
-                <Button className="menu-item" onClick={(_) => this.updateMenu("cluster")}>
-                    Cluster
-                </Button>
-                <Button className="menu-item" onClick={(_) => this.updateMenu("nodes")}>
+                <Button className="menu-item" onClick={(_) => this.updateMenu("node")}>
                     Nodes
                 </Button>
                 <Button className="menu-item" onClick={(_) => this.openMenu("openWorkloads", !this.state.openWorkloads)} aria-expanded={this.state.openWorkloads} aria-controls="menu-item-workloads">

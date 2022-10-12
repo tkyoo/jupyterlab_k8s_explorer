@@ -56,6 +56,14 @@ class PodSecurityPolicyComponent extends React.Component<PodSecurityPolicyProps,
         })
     }
 
+    volumes(item: any) {
+        if ( item.spec.hasOwnProperty("volumes") ) {
+            return item.spec.volumes.join(",");
+        }
+
+        return "";
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -122,8 +130,8 @@ class PodSecurityPolicyComponent extends React.Component<PodSecurityPolicyProps,
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Privileged</td>
-                <td>Volumes</td>
+                <td>{item.spec.privileged ? "true" : "false"}</td>
+                <td>{this.volumes(item)}</td>
                 <td>{item.metadata.creation_timestamp}</td>
             </tr>
         );

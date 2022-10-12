@@ -58,6 +58,32 @@ class PVComponent extends React.Component<PVProps, PVState> {
         })
     }
 
+    capacity(item: any) {
+        if ( item.spec.hasOwnProperty("capacity") ) {
+            if ( item.spec.capacity.hasOwnProperty("storage") ) {
+                return item.spec.capacity.storage;
+            }
+        }
+
+        return "";
+    }
+
+    claimRef(item: any) {
+        if ( item.spec.hasOwnProperty("claimRef") ) {
+            return item.spec.claimRef.name;
+        }
+
+        return "";
+    }
+
+    storageClassName(item: any) {
+        if ( item.spec.hasOwnProperty("storage_class_name") ) {
+            return item.spec.storage_class_name;
+        } else {
+            return "";
+        }
+    }
+
     drawDetailContents(): JSX.Element {
         let detailRows = Object.keys(this.state.currentItem).map( (key) => {
             const values = this.state.currentItem[key];
@@ -123,11 +149,11 @@ class PVComponent extends React.Component<PVProps, PVState> {
             <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
                 <td>{index}</td>
                 <td>{item.metadata.name}</td>
-                <td>Storage Class</td>
-                <td>Capacity</td>
-                <td>Claim</td>
+                <td>{this.storageClassName(item)}</td>
+                <td>{this.capacity(item)}</td>
+                <td>{this.claimRef(item)}</td>
                 <td>{item.metadata.creation_timestamp}</td>
-                <td>Status</td>
+                <td>{item.status.phase}</td>
             </tr>
         );
 

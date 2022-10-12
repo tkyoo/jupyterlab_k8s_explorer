@@ -6,6 +6,7 @@ import { EndpointComponent, IngressComponent, NetworkPolicyComponent, ServiceCom
 import { PVComponent, PVCComponent, StorageClassComponent } from './storage/Component';
 import { CronJobComponent, DaemonSetComponent, DeploymentComponent, JobComponent, PodComponent, ReplicaSetComponent, StatefulSetComponent} from './workloads/Component';
 import { NamespaceComponent } from './Namespace';
+import { NodeComponent } from './Node';
 
 type ContentManagerProps = {
     currentContent?: string
@@ -41,7 +42,6 @@ class ContentManagerComponent extends React.Component<ContentManagerProps, Conte
         }));
 
         // this.openModal(true);
-        console.log(this.state);
     }
 
     render(): JSX.Element {
@@ -49,7 +49,6 @@ class ContentManagerComponent extends React.Component<ContentManagerProps, Conte
 
         let content;
 
-        console.log(currentContent);
         switch (currentContent) {
             case "pod": {
                 content = <PodComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
@@ -160,7 +159,11 @@ class ContentManagerComponent extends React.Component<ContentManagerProps, Conte
                 break;
             }
             case "namespace": {
-                content = <NamespaceComponent clickItem={this.setCurrentItem}/>;
+                content = <NamespaceComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
+                break;
+            }
+            case "node": {
+                content = <NodeComponent objectName={currentContent} clickItem={this.setCurrentItem}/>;
                 break;
             }
             default: {
