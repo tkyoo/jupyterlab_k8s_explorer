@@ -23,7 +23,11 @@ async function requestAPI<T>(
 
   let response: Response;
   try {
-    response = await ServerConnection.makeRequest(requestUrl, request, settings);
+    response = await ServerConnection.makeRequest(
+      requestUrl,
+      request,
+      settings
+    );
   } catch (error) {
     throw new ServerConnection.NetworkError(error);
   }
@@ -45,60 +49,68 @@ async function requestAPI<T>(
   return data;
 }
 
-
-async function getObjectList(objectName:string) {
-  const data = await requestAPI<any>("k8s/get_object_list?" + new URLSearchParams({
-      object_name: objectName
-  }));
-
-  console.log(data);
-  return data
-}
-
-async function getNamespace() {
-  const data = await requestAPI<any>("k8s/get_namespace_list");
-
-  console.log(data);
-  return data
-}
-
-async function getGlobalObjectList(objectName:string) {
-  const data = await requestAPI<any>("k8s/get_global_object_list?" + new URLSearchParams({
-    object_name: objectName
-  }))
+async function getObjectList(objectName: string): Promise<any> {
+  const data = await requestAPI<any>(
+    'k8s/get_object_list?' +
+      new URLSearchParams({
+        object_name: objectName
+      })
+  );
 
   console.log(data);
   return data;
 }
 
-async function readObject(objectName:string, namespace:string, name:string) {
-  const data = await requestAPI<any[]>("k8s/read_object?" + new URLSearchParams({
-      name: name,
-      object_name: objectName,
-      namespace: namespace
-  }));
+async function getGlobalObjectList(objectName: string): Promise<any> {
+  const data = await requestAPI<any>(
+    'k8s/get_global_object_list?' +
+      new URLSearchParams({
+        object_name: objectName
+      })
+  );
 
   console.log(data);
-  return data
+  return data;
 }
 
-async function readGlobalObject(objectName:string, name:string) {
-  const data = await requestAPI<any[]>("k8s/read_global_object?" + new URLSearchParams({
-      name: name,
-      object_name: objectName,
-  }));
+async function readObject(
+  objectName: string,
+  namespace: string,
+  name: string
+): Promise<any[]> {
+  const data = await requestAPI<any[]>(
+    'k8s/read_object?' +
+      new URLSearchParams({
+        name: name,
+        object_name: objectName,
+        namespace: namespace
+      })
+  );
 
   console.log(data);
-  return data
+  return data;
 }
 
-async function readNamespace(name:string) {
-  const data = await requestAPI<any[]>("k8s/read_namespace?" + new URLSearchParams({
-      name: name,
-  }));
+async function readGlobalObject(
+  objectName: string,
+  name: string
+): Promise<any[]> {
+  const data = await requestAPI<any[]>(
+    'k8s/read_global_object?' +
+      new URLSearchParams({
+        name: name,
+        object_name: objectName
+      })
+  );
 
   console.log(data);
-  return data
+  return data;
 }
 
-export {requestAPI, getObjectList, getNamespace, getGlobalObjectList, readObject, readGlobalObject, readNamespace}
+export {
+  requestAPI,
+  getObjectList,
+  getGlobalObjectList,
+  readObject,
+  readGlobalObject
+};

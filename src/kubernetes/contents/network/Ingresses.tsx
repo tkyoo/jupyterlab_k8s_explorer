@@ -3,202 +3,241 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
 
-import { getObjectList, readObject } from "../../../handler";
-import { CodeMirrorComponent } from "../../../common/CodeMirror";
-import { DetailComponent } from "../../../common/Detail";
+import { getObjectList, readObject } from '../../../handler';
+import { CodeMirrorComponent } from '../../../common/CodeMirror';
+import { DetailComponent } from '../../../common/Detail';
 
 type IngressProps = {
-    clickItem: Function,
-    objectName: string
+  clickItem: Function;
+  objectName: string;
 };
 
 type IngressState = {
-    items: any[],
-    currentItem: any,
+  items: any[];
+  currentItem: any;
 };
 
 type IngressObject = {
-    metadata: any,
-    spec: any,
-    status: any
+  metadata: any;
+  spec: any;
+  status: any;
 };
 
 class IngressComponent extends React.Component<IngressProps, IngressState> {
-    child: React.RefObject<DetailComponent>;
-    objectName: string;
+  child: React.RefObject<DetailComponent>;
+  objectName: string;
 
-    constructor(prop: IngressProps) {
-        super(prop);
-        this.state = {
-            items: [],
-            currentItem: null,
-        };
-        this.child = React.createRef();
-        this.objectName = this.props.objectName;
-        this.getItemList();
+  constructor(prop: IngressProps) {
+    super(prop);
+    this.state = {
+      items: [],
+      currentItem: null
+    };
+    this.child = React.createRef();
+    this.objectName = this.props.objectName;
+    this.getItemList();
+  }
+
+  async getItemList() {
+    const data = await getObjectList(this.objectName);
+
+    if (data !== null) {
+      this.setState({
+        ...this.state,
+        ['items']: data.items
+      });
     }
+  }
 
-    async getItemList() {
-        const data = await getObjectList(this.objectName);
+  async updateCurrentItem(item: any) {
+    const data = await readObject(
+      this.objectName,
+      item.metadata.namespace,
+      item.metadata.name
+    );
 
-        if ( data != null ) {
-            this.setState({
-                ...this.state,
-                ["items"]: data.items
-            })
+    this.setState({
+      ...this.state,
+      ['currentItem']: data
+    });
+  }
+
+  loadBalancer(item: any) {
+    if (Object.prototype.hasOwnProperty.call(item.status, 'load_balancer')) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          item.status.load_balancer,
+          'ingress'
+        )
+      ) {
+        if (item.status.load_balancer.ingress.length > 0) {
+          return item.status.load_balancer.ingress[0].hostname;
         }
+      }
     }
 
-    async updateCurrentItem(item: any) {
-        const data = await readObject(this.objectName, item.metadata.namespace, item.metadata.name);
+    return '';
+  }
 
-        this.setState({
-            ...this.state,
-            ["currentItem"]: data
-        })
-    }
+  rules(item: any) {
+    if (Object.prototype.hasOwnProperty.call(item.spec, 'rules')) {
+      item.spec.rules.forEach((rule: any) => {
+        const hostName = rule.host;
+        const pathList: string[] = [];
+        rule.http.paths.forEach((pathObject: any) => {
+          const path = pathObject.path;
 
-    loadBalancer(item: any) {
-        if ( item.status.hasOwnProperty("load_balancer") ) {
-            if ( item.status.load_balancer.hasOwnProperty("ingress") ) {
-                if ( item.status.load_balancer.ingress.length > 0 ) {
-                    return item.status.load_balancer.ingress[0].hostname;
-                }
-            }
-        }
-
-        return "";
-    }
-
-    rules(item: any) {
-        if ( item.spec.hasOwnProperty("rules") ) {
-            item.spec.rules.forEach( (rule: any) => {
-                const hostName = rule.host;
-                const pathList: string[] = [];
-                rule.http.paths.forEach( (pathObject:any) => {
-                    const path = pathObject.path;
-
-                    if ( pathObject.backend.hasOwnProperty("resource") ) {
-                        pathList.push("http://" + hostName + path + "->" + pathObject.backend.resource.name);
-                    } else if ( pathObject.backend.hasOwnProperty("service") ) {
-                        const name = pathObject.backend.service.name;
-                        const port = pathObject.backend.service.port.hasOwnProperty("name") ? pathObject.backend.service.port.name : pathObject.backend.service.port.number;
-                        pathList.push("http://" + hostName + path + "->" + name + ":" + port);
-                    }
-                });
-
-                return pathList.join("\n");
-            });
-        } else {
-            return "";
-        }
-    }
-
-    drawDetailContents(): JSX.Element {
-        let detailRows = Object.keys(this.state.currentItem).map( (key) => {
-            const values = this.state.currentItem[key];
-
-            if ( values != null ) {
-                if ( typeof (values) == "object" ) {
-                    const innerRows = Object.keys(values).map( (key) => {
-                        return <tr>
-                            <td>{key}</td>
-                            <td className="table-content">{JSON.stringify(values[key])}</td>
-                        </tr>
-                    });
-
-                    return (
-                        <div>
-                            <h3>{key}</h3>
-                            <Table>
-                                <tbody>
-                                    {innerRows}
-                                </tbody>
-                            </Table>
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div>
-                            <h3>{key}</h3>
-                            <p>{values}</p>
-                        </div>
-                    )
-                }
-            } else {
-                return (<div></div>)
-            }
+          if (
+            Object.prototype.hasOwnProperty.call(pathObject.backend, 'resource')
+          ) {
+            pathList.push(
+              'http://' +
+                hostName +
+                path +
+                '->' +
+                pathObject.backend.resource.name
+            );
+          } else if (
+            Object.prototype.hasOwnProperty.call(pathObject.backend, 'service')
+          ) {
+            const name = pathObject.backend.service.name;
+            const port = Object.prototype.hasOwnProperty.call(
+              pathObject.backend.service.port,
+              'name'
+            )
+              ? pathObject.backend.service.port.name
+              : pathObject.backend.service.port.number;
+            pathList.push(
+              'http://' + hostName + path + '->' + name + ':' + port
+            );
+          }
         });
 
-        const props = {
-            "headers": this.state.currentItem.metadata.name,
-            "body": (
-                <Tabs
-                    defaultActiveKey="detail"
-                    transition={false}
-                    id="detail-tabs"
-                    className="mb-3"
-                >
-                    <Tab eventKey="detail" title="Detail">
-                        {detailRows}
-                    </Tab>
-                    <Tab eventKey="yaml" title="YAML">
-                        <CodeMirrorComponent code={this.state.currentItem} />
-                    </Tab>
-                </Tabs>
-            ),
-            "openModal": true,
-            "confirmEvent": () => { alert("Test!") ;}
-        }
-
-        return <DetailComponent ref={this.child} headers={props.headers} body={props.body} openModal={true} confirmEvent={props.confirmEvent} />
+        return pathList.join('\n');
+      });
+    } else {
+      return '';
     }
+  }
 
-    render(): JSX.Element {
-        console.log(typeof(this.state.items), this.state.items);
-        const rows = this.state.items.map((item, index) =>
-            <tr className="cursor-pointer" onClick={()=> {this.props.clickItem(item); this.updateCurrentItem(item); this.child.current?.openModal(true) }}>
-                <td>{index}</td>
-                <td>{item.metadata.name}</td>
-                <td>{item.metadata.namespace}</td>
-                <td>{this.loadBalancer(item)}</td>
-                <td>{this.rules(item)}</td>
-                <td>{item.metadata.creation_timestamp}</td>
-            </tr>
-        );
+  drawDetailContents(): JSX.Element {
+    const detailRows = Object.keys(this.state.currentItem).map(key => {
+      const values = this.state.currentItem[key];
 
-        let detailContent;
-        const drawDetailContent = this.state.currentItem != null;
+      if (values !== null) {
+        if (typeof values === 'object') {
+          const innerRows = Object.keys(values).map(key => {
+            return (
+              <tr>
+                <td>{key}</td>
+                <td className="table-content">{JSON.stringify(values[key])}</td>
+              </tr>
+            );
+          });
 
-        console.log(this.state);
-
-        if ( drawDetailContent ) {
-            detailContent = this.drawDetailContents();
-        } else {
-            detailContent = null;
-        }
-
-        return (
+          return (
             <div>
-                <Table striped hover>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Namespace</th>
-                            <th>LoadBalancers</th>
-                            <th>Rules</th>
-                            <th>Age</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {rows}
-                    </tbody>
-                </Table>
-                {detailContent}
+              <h3>{key}</h3>
+              <Table>
+                <tbody>{innerRows}</tbody>
+              </Table>
             </div>
-        )
+          );
+        } else {
+          return (
+            <div>
+              <h3>{key}</h3>
+              <p>{values}</p>
+            </div>
+          );
+        }
+      } else {
+        return <div></div>;
+      }
+    });
+
+    const props = {
+      headers: this.state.currentItem.metadata.name,
+      body: (
+        <Tabs
+          defaultActiveKey="detail"
+          transition={false}
+          id="detail-tabs"
+          className="mb-3"
+        >
+          <Tab eventKey="detail" title="Detail">
+            {detailRows}
+          </Tab>
+          <Tab eventKey="yaml" title="YAML">
+            <CodeMirrorComponent code={this.state.currentItem} />
+          </Tab>
+        </Tabs>
+      ),
+      openModal: true,
+      confirmEvent: () => {
+        alert('Test!');
+      }
+    };
+
+    return (
+      <DetailComponent
+        ref={this.child}
+        headers={props.headers}
+        body={props.body}
+        openModal={true}
+        confirmEvent={props.confirmEvent}
+      />
+    );
+  }
+
+  render(): JSX.Element {
+    console.log(typeof this.state.items, this.state.items);
+    const rows = this.state.items.map((item, index) => (
+      <tr
+        className="cursor-pointer"
+        onClick={() => {
+          this.props.clickItem(item);
+          this.updateCurrentItem(item);
+          this.child.current?.openModal(true);
+        }}
+      >
+        <td>{index}</td>
+        <td>{item.metadata.name}</td>
+        <td>{item.metadata.namespace}</td>
+        <td>{this.loadBalancer(item)}</td>
+        <td>{this.rules(item)}</td>
+        <td>{item.metadata.creation_timestamp}</td>
+      </tr>
+    ));
+
+    let detailContent;
+    const drawDetailContent = this.state.currentItem !== null;
+
+    if (drawDetailContent) {
+      detailContent = this.drawDetailContents();
+    } else {
+      detailContent = null;
     }
+
+    return (
+      <div>
+        <Table striped hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Namespace</th>
+              <th>LoadBalancers</th>
+              <th>Rules</th>
+              <th>Age</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+        {detailContent}
+      </div>
+    );
+  }
 }
 
-export {IngressObject, IngressComponent};
+export { IngressObject, IngressComponent };

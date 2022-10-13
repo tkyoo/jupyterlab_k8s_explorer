@@ -21,10 +21,10 @@
     "types": ["jest"]
   },
   "include": [
-    "src/*", 
+    "src/*",
     "src/common/*",
-    "src/kubernetes/*", 
-    "src/kubernetes/contents/*", 
+    "src/kubernetes/*",
+    "src/kubernetes/contents/*",
     "src/kubernetes/contents/access-control/*",
     "src/kubernetes/contents/config/*",
     "src/kubernetes/contents/network/*",

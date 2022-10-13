@@ -4,18 +4,22 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { 
-  ICommandPalette, 
+import {
+  ICommandPalette,
   MainAreaWidget,
   WidgetTracker
-} from '@jupyterlab/apputils'
+} from '@jupyterlab/apputils';
 
 import { requestAPI } from './handler';
 // import APODWidget from './APODWidget';
 import KuberenetesMainWidget from './kubernetes/Main';
 // import { CounterWidget } from './kubernetes/Main.tsx.bak';
 
-function activate(app: JupyterFrontEnd, palette: ICommandPalette, restorer: ILayoutRestorer) {
+function activate(
+  app: JupyterFrontEnd,
+  palette: ICommandPalette,
+  restorer: ILayoutRestorer
+): void {
   console.log('JupyterLab extension jupyterlab_k8s_explorer is activated!');
 
   requestAPI<any>('get_example')
@@ -32,7 +36,7 @@ function activate(app: JupyterFrontEnd, palette: ICommandPalette, restorer: ILay
   let widget: MainAreaWidget<KuberenetesMainWidget>;
 
   // Add an application command
-  const command: string = 'jupyterlab_k8s_explorer:open';
+  const command = 'jupyterlab_k8s_explorer:open';
   app.commands.addCommand(command, {
     label: 'Random Astronomy Picture',
     execute: () => {
@@ -47,7 +51,7 @@ function activate(app: JupyterFrontEnd, palette: ICommandPalette, restorer: ILay
       }
       if (!tracker.has(widget)) {
         // Track the state of the widget for later restoration
-        tracker.add(widget)
+        tracker.add(widget);
       }
       if (!widget.isAttached) {
         // Attach the widget to the main work area if it's not three
@@ -62,14 +66,14 @@ function activate(app: JupyterFrontEnd, palette: ICommandPalette, restorer: ILay
   // Add the command to the palette
   palette.addItem({ command, category: 'Tutorial' });
 
-  let tracker = new WidgetTracker<MainAreaWidget<KuberenetesMainWidget>>({
+  const tracker = new WidgetTracker<MainAreaWidget<KuberenetesMainWidget>>({
     namespace: 'jupyterlab_k8s_explorer'
   });
 
   restorer.restore(tracker, {
     command,
     name: () => 'jupyterlab_k8s_explorer'
-  })
+  });
 
   console.log('ICommandPalatte:', palette);
 }
