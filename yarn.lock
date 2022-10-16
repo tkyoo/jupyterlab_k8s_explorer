@@ -1775,12 +1775,12 @@
     "node-fetch" "^2.6.0"
     "ws" "^7.4.6"
 
-"@jupyterlab/settingregistry@^3.4.3":
-  "integrity" "sha512-DYrlQz4FIhx9JP3lmevGY1MWgvDN/2ujpQxBZeuz3TPEoSwMpLNwXcI7U69XSm/CF99IN2W3V8LGOKx0M+T9Ug=="
-  "resolved" "https://registry.npmjs.org/@jupyterlab/settingregistry/-/settingregistry-3.4.3.tgz"
-  "version" "3.4.3"
+"@jupyterlab/settingregistry@^3.4.3", "@jupyterlab/settingregistry@^3.4.8":
+  "integrity" "sha512-w9MNFivKXUOLrEvWckpcYm3XAZr0sbcKQ33SkftaLSQODsFlUwkcsjCPJJATVyxiWXAsCAgUlOKdNcqWxYXvOA=="
+  "resolved" "https://registry.npmjs.org/@jupyterlab/settingregistry/-/settingregistry-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@jupyterlab/statedb" "^3.4.3"
+    "@jupyterlab/statedb" "^3.4.8"
     "@lumino/commands" "^1.19.0"
     "@lumino/coreutils" "^1.11.0"
     "@lumino/disposable" "^1.10.0"
@@ -1800,10 +1800,10 @@
     "y-protocols" "^1.0.5"
     "yjs" "^13.5.17"
 
-"@jupyterlab/statedb@^3.4.3":
-  "integrity" "sha512-Gr96oF20qEVv7jFDgDvi6GciLoGp+qo3lElqQdJhgqmLrQI9oTqtYOwkxLYjOzY8uhXI+Z4X1tZ7cRkNdoUCVw=="
-  "resolved" "https://registry.npmjs.org/@jupyterlab/statedb/-/statedb-3.4.3.tgz"
-  "version" "3.4.3"
+"@jupyterlab/statedb@^3.4.3", "@jupyterlab/statedb@^3.4.8":
+  "integrity" "sha512-PMlo+x4R8uXPH1BgCJUVVIj/H8SY9scGJU0pqHhYa6mm3R2EHNAwr8JxyqGjAqT3C0VCCCIDzHtQ3f9inW+OXg=="
+  "resolved" "https://registry.npmjs.org/@jupyterlab/statedb/-/statedb-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "@lumino/commands" "^1.19.0"
     "@lumino/coreutils" "^1.11.0"

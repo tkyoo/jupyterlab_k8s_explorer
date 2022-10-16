@@ -1,72 +1,90 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Table from 'react-bootstrap/Table';
 
-import { getGlobalObjectList, readGlobalObject } from '../../../handler';
-import { CodeMirrorComponent } from '../../../common/CodeMirror';
-import { DetailComponent } from '../../../common/Detail';
+import { getContext } from '../../handler';
+import { CodeMirrorComponent } from '../../common/CodeMirror';
+import { DetailComponent } from '../../common/Detail';
 
-type PriorityClassProps = {
+type ContextProps = {
   clickItem: Function;
-  objectName: string;
 };
 
-type PriorityClassState = {
+type ContextState = {
   items: any[];
   currentItem: any;
+  currentContext: any;
 };
 
-type PriorityClassObject = {
+type ContextObject = {
   metadata: any;
   spec: any;
   status: any;
 };
 
-class PriorityClassComponent extends React.Component<
-  PriorityClassProps,
-  PriorityClassState
+class ContextComponent extends React.Component<
+    ContextProps,
+    ContextState
 > {
   child: React.RefObject<DetailComponent>;
-  objectName: string;
 
-  constructor(prop: PriorityClassProps) {
+  constructor(prop: ContextProps) {
     super(prop);
     this.state = {
       items: [],
-      currentItem: null
+      currentItem: null,
+      currentContext: null
     };
     this.child = React.createRef();
-    this.objectName = this.props.objectName;
-    this.getItemList();
+    this.getContextList();
   }
 
-  async getItemList() {
-    const data = await getGlobalObjectList(this.objectName);
+  async getContextList() {
+    const data = await getContext();
 
     if ( data !== null ) {
-      this.setState({
-        ...this.state,
-        ['items']: data.items
-      });
+      console.log(this.state);
+
+      this.setState((state:Readonly<ContextState>) => {
+        return { 
+          items: data[0],
+          currentItem: state.currentItem !== null ? Object.assign({}, state.currentItem) : null,
+          currentContext: data[1]
+        }
+      })
+
     }
   }
 
   async updateCurrentItem(item: any) {
-    const data = await readGlobalObject(this.objectName, item.metadata.name);
-
     this.setState({
       ...this.state,
-      ['currentItem']: data
+      ['currentItem']: item
     });
   }
 
-  globalDefault(item: any) {
-    if (Object.prototype.hasOwnProperty.call(item, 'global_default')) {
-      return item.global_default ? 'true' : 'false';
-    } else {
-      return 'false';
-    }
+  labels(item: any) {
+    const labels = item.metadata.labels;
+    const labelsKeys = Object.keys(labels);
+    const result: any[] = [];
+
+    labelsKeys.forEach((key: string) => {
+      result.push(
+        <Button variant="secondary">
+          {key}={labels[key]}
+        </Button>
+      );
+    });
+
+    return result;
+  }
+
+  checkCurrentContext(item: any) {
+    console.log(item);
+    console.log(this.state);
+    return item.name === this.state.currentContext.name;
   }
 
   drawDetailContents(): JSX.Element {
@@ -106,7 +124,7 @@ class PriorityClassComponent extends React.Component<
     });
 
     const props = {
-      headers: this.state.currentItem.metadata.name,
+      headers: this.state.currentItem.name,
       body: (
         <Tabs
           defaultActiveKey="detail"
@@ -140,7 +158,6 @@ class PriorityClassComponent extends React.Component<
   }
 
   render(): JSX.Element {
-    console.log(typeof this.state.items, this.state.items);
     const rows = this.state.items.map((item, index) => (
       <tr
         className="cursor-pointer"
@@ -151,19 +168,17 @@ class PriorityClassComponent extends React.Component<
         }}
       >
         <td>{index}</td>
-        <td>{item.metadata.name}</td>
-        <td>{item.value}</td>
-        <td>
-          {Object.prototype.hasOwnProperty.call(item, 'global_default')
-            ? item.global_default
-            : false}
-        </td>
-        <td>{item.metadata.creation_timestamp}</td>
+        <td>{item.name}</td>
+        <td>{item.context.cluster}</td>
+        <td>{item.context.user}</td>
+        <td>{this.checkCurrentContext(item) ? "Active" : ""}</td>
       </tr>
     ));
 
     let detailContent;
     const drawDetailContent = this.state.currentItem !== null;
+
+    console.log(this.state);
 
     if (drawDetailContent) {
       detailContent = this.drawDetailContents();
@@ -178,9 +193,9 @@ class PriorityClassComponent extends React.Component<
             <tr>
               <th>#</th>
               <th>Name</th>
-              <th>Value</th>
-              <th>Global Default</th>
-              <th>Age</th>
+              <th>Cluster</th>
+              <th>User</th>
+              <th>Current</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
@@ -191,4 +206,4 @@ class PriorityClassComponent extends React.Component<
   }
 }
 
-export { PriorityClassObject, PriorityClassComponent };
+export { ContextObject, ContextComponent };

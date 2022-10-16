@@ -42,10 +42,12 @@ class SecretComponent extends React.Component<SecretProps, SecretState> {
   async getItemList() {
     const data = await getObjectList(this.objectName);
 
-    this.setState({
-      ...this.state,
-      ['items']: data.items
-    });
+    if ( data !== null ) {
+      this.setState({
+        ...this.state,
+        ['items']: data.items
+      });
+    }
   }
 
   async updateCurrentItem(item: any) {

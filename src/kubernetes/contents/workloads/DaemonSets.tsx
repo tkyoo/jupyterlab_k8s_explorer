@@ -45,10 +45,12 @@ class DaemonSetComponent extends React.Component<
   async getItemList() {
     const data = await getObjectList(this.objectName);
 
-    this.setState({
-      ...this.state,
-      ['items']: data.items
-    });
+    if ( data !== null ) {
+      this.setState({
+        ...this.state,
+        ['items']: data.items
+      });
+    }
   }
 
   async updateCurrentItem(item: any) {
@@ -65,19 +67,28 @@ class DaemonSetComponent extends React.Component<
   }
 
   nodes(item: any) {
-    const nodeSelector = item.spec.template.spec.node_selector;
-    const nodeSelectorKeys = Object.keys(nodeSelector);
-    const result: any[] = [];
+    if (
+      Object.prototype.hasOwnProperty.call(
+        item.spec.template.spec,
+        'node_selector'
+      )
+    ) {
+      const nodeSelector = item.spec.template.spec.node_selector;
+      const nodeSelectorKeys = Object.keys(nodeSelector);
+      const result: any[] = [];
 
-    nodeSelectorKeys.forEach((key: string) => {
-      result.push(
-        <Button variant="secondary">
-          {key}={nodeSelector[key]}
-        </Button>
-      );
-    });
+      nodeSelectorKeys.forEach((key: string) => {
+        result.push(
+          <Button variant="secondary">
+            {key}={nodeSelector[key]}
+          </Button>
+        );
+      });
 
-    return result;
+      return result;
+    } else {
+      return '';
+    }
   }
 
   drawDetailContents(): JSX.Element {

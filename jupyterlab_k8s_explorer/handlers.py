@@ -4,7 +4,7 @@ from jupyter_server.base.handlers import APIHandler
 from jupyter_server.utils import url_path_join
 import tornado
 
-from .k8s_handler import GetNamespaceHanlder, GetObjectHandler, GetGlobalObjectHandler, ListNamespaceHandler, ListObjectHandler, ListGlobalObjectHandler
+from .k8s_handler import GetContextHandler, GetObjectHandler, GetGlobalObjectHandler, ListObjectHandler, ListGlobalObjectHandler
 
 class RouteHandler(APIHandler):
     # The following decorator should be present on all verb methods (head, get, post,
@@ -26,8 +26,7 @@ def setup_handlers(web_app):
     # handlers = [(route_pattern, RouteHandler)]
     handlers = [
         (url_path_join(base_url, "jupyterlab-k8s-explorer", "get_example"), RouteHandler),
-        (url_path_join(base_url, "jupyterlab-k8s-explorer", "k8s/get_namespace_list"), ListNamespaceHandler),
-        (url_path_join(base_url, "jupyterlab-k8s-explorer", "k8s/read_namespace/([^/]+)"), GetNamespaceHanlder),
+        (url_path_join(base_url, "jupyterlab-k8s-explorer", "k8s/get_context"), GetContextHandler),
         (url_path_join(base_url, "jupyterlab-k8s-explorer", "k8s/get_object_list"), ListObjectHandler),
         (url_path_join(base_url, "jupyterlab-k8s-explorer", "k8s/get_global_object_list"), ListGlobalObjectHandler),
         (url_path_join(base_url, "jupyterlab-k8s-explorer", "k8s/read_object"), GetObjectHandler),

@@ -1,0 +1,33 @@
+{
+  "title": "Kubernetes Explorer",
+  "description": "Settings of the kubernetes explorer.",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-view",
+        "items": [
+          {
+            "command": "jupyterlab_k8s_explorer:open",
+            "rank": 500
+          }
+        ]
+      }
+    ]
+  },
+  "properties": {
+    "kubeconfig_path": {
+      "type": "string",
+      "title": "Path",
+      "description": "Kubeconfig path",
+      "default": ""
+    },
+    "context": {
+      "type": "string",
+      "title": "Context",
+      "description": "Set kubernetes current-context",
+      "default": ""
+    }
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

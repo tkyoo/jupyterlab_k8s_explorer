@@ -10,7 +10,8 @@ import {
   WidgetTracker
 } from '@jupyterlab/apputils';
 
-import { requestAPI } from './handler';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
+
 // import APODWidget from './APODWidget';
 import KuberenetesMainWidget from './kubernetes/Main';
 // import { CounterWidget } from './kubernetes/Main.tsx.bak';
@@ -18,19 +19,47 @@ import KuberenetesMainWidget from './kubernetes/Main';
 function activate(
   app: JupyterFrontEnd,
   palette: ICommandPalette,
-  restorer: ILayoutRestorer
+  restorer: ILayoutRestorer,
+  settings: ISettingRegistry
 ): void {
-  console.log('JupyterLab extension jupyterlab_k8s_explorer is activated!');
+  // console.log('JupyterLab extension jupyterlab_k8s_explorer is activated!');
 
-  requestAPI<any>('get_example')
-    .then(data => {
-      console.log(data);
-    })
-    .catch(reason => {
-      console.error(
-        `The jupyterlab_k8s_explorer server extension appears to be missing.\n${reason}`
-      );
-    });
+  // requestAPI<any>('get_example')
+  //   .then(data => {
+  //     console.log(data);
+  //   })
+  //   .catch(reason => {
+  //     console.error(
+  //       `The jupyterlab_k8s_explorer server extension appears to be missing.\n${reason}`
+  //     );
+  //   });
+
+  /**
+   * Load the settings for this extension
+   *
+   * @param setting Extension settings
+   */
+  function loadSetting(setting: ISettingRegistry.ISettings): void {
+    // Read the settings and convert to the correct type
+    const path = setting.get('kubeconfig_path').composite as string;
+
+    console.log('kubeconfig path: ' + path);
+
+    console.log(`Settings Example extension: Path is set to '${path}'`);
+  }
+
+  // Wait for the application to be restored and
+  // for the settings for this plugin to be loaded
+  Promise.all([
+    app.restored,
+    settings.load('jupyterlab_k8s_explorer:plugin')
+  ]).then(([, setting]) => {
+    // Read the settings
+    loadSetting(setting);
+
+    // Listen for your plugin setting changes using Signal
+    setting.changed.connect(loadSetting);
+  });
 
   // let widget: MainAreaWidget<APODWidget>;
   let widget: MainAreaWidget<KuberenetesMainWidget>;
@@ -38,7 +67,7 @@ function activate(
   // Add an application command
   const command = 'jupyterlab_k8s_explorer:open';
   app.commands.addCommand(command, {
-    label: 'Random Astronomy Picture',
+    label: 'Kubernetes Explorer',
     execute: () => {
       if (!widget || widget.isDisposed) {
         // Create a new widget if one does not exist
@@ -84,7 +113,7 @@ function activate(
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'jupyterlab_k8s_explorer:plugin',
   autoStart: true,
-  requires: [ICommandPalette, ILayoutRestorer],
+  requires: [ICommandPalette, ILayoutRestorer, ISettingRegistry],
   activate: activate
 };
 

@@ -39,6 +39,7 @@ import {
 } from './workloads/Component';
 import { NamespaceComponent } from './Namespace';
 import { NodeComponent } from './Node';
+import { ContextComponent } from './Context';
 
 type ContentManagerProps = {
   currentContent?: string;
@@ -81,6 +82,12 @@ class ContentManagerComponent extends React.Component<
     let content;
 
     switch (currentContent) {
+      case 'context': {
+        content = (
+          <ContextComponent clickItem={this.setCurrentItem} />
+        );
+        break;
+      }
       case 'pod': {
         content = (
           <PodComponent

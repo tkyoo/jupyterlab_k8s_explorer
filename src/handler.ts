@@ -49,6 +49,12 @@ async function requestAPI<T>(
   return data;
 }
 
+async function getContext(): Promise<any> {
+  const data = await requestAPI<any>('k8s/get_context')
+
+  return data;
+}
+
 async function getObjectList(objectName: string): Promise<any> {
   const data = await requestAPI<any>(
     'k8s/get_object_list?' +
@@ -109,6 +115,7 @@ async function readGlobalObject(
 
 export {
   requestAPI,
+  getContext,
   getObjectList,
   getGlobalObjectList,
   readObject,
