@@ -116,6 +116,11 @@ jobs:
         set -eux
         python -m pip install "jupyterlab~=3.1" jupyterlab_k8s_explorer*.whl
 
+    - name: Install the python dependency
+      run: |
+        set -eux
+        python -m pip install kubernetes
+
     - name: Install dependencies
       working-directory: ui-tests
       env:
