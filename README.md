@@ -1,6 +1,6 @@
 # jupyterlab_k8s_explorer
 
-[![Github Actions Status](https://github.com/github_username/jupyterlab_k8s_explorer/workflows/Build/badge.svg)](https://github.com/github_username/jupyterlab_k8s_explorer/actions/workflows/build.yml)[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/github_username/jupyterlab_k8s_explorer/main?urlpath=lab)
+[![Github Actions Status](https://github.com/tkyoo/jupyterlab_k8s_explorer/workflows/Build/badge.svg)](https://github.com/tkyoo/jupyterlab_k8s_explorer/actions/workflows/build.yml)[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/tkyoo/jupyterlab_k8s_explorer/main?urlpath=lab)
 A JupyterLab extension for exploring and managing k8s resources
 
 ## Requirements
