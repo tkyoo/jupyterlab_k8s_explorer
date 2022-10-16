@@ -8,6 +8,7 @@ include install.json
 include ts*.json
 include *.config.js
 include yarn.lock
+include schema/plugin.json
 
 graft jupyterlab_k8s_explorer/labextension
 
