@@ -83,9 +83,7 @@ class ContentManagerComponent extends React.Component<
 
     switch (currentContent) {
       case 'context': {
-        content = (
-          <ContextComponent clickItem={this.setCurrentItem} />
-        );
+        content = <ContextComponent clickItem={this.setCurrentItem} />;
         break;
       }
       case 'pod': {

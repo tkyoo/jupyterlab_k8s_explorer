@@ -50,7 +50,7 @@ async function requestAPI<T>(
 }
 
 async function getContext(): Promise<any> {
-  const data = await requestAPI<any>('k8s/get_context')
+  const data = await requestAPI<any>('k8s/get_context');
 
   return data;
 }

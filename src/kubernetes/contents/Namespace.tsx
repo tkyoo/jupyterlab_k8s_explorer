@@ -45,7 +45,7 @@ class NamespaceComponent extends React.Component<
   async getItemList() {
     const data = await getGlobalObjectList(this.objectName);
 
-    if ( data !== null ) {
+    if (data !== null) {
       this.setState({
         ...this.state,
         ['items']: data.items

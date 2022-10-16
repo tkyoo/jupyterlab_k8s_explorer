@@ -42,7 +42,7 @@ class ServiceComponent extends React.Component<ServiceProps, ServiceState> {
   async getItemList() {
     const data = await getObjectList(this.objectName);
 
-    if ( data !== null ) {
+    if (data !== null) {
       this.setState({
         ...this.state,
         ['items']: data.items

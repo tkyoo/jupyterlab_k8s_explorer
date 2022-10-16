@@ -24,10 +24,7 @@ type ContextObject = {
   status: any;
 };
 
-class ContextComponent extends React.Component<
-    ContextProps,
-    ContextState
-> {
+class ContextComponent extends React.Component<ContextProps, ContextState> {
   child: React.RefObject<DetailComponent>;
 
   constructor(prop: ContextProps) {
@@ -44,17 +41,19 @@ class ContextComponent extends React.Component<
   async getContextList() {
     const data = await getContext();
 
-    if ( data !== null ) {
+    if (data !== null) {
       console.log(this.state);
 
-      this.setState((state:Readonly<ContextState>) => {
-        return { 
+      this.setState((state: Readonly<ContextState>) => {
+        return {
           items: data[0],
-          currentItem: state.currentItem !== null ? Object.assign({}, state.currentItem) : null,
+          currentItem:
+            state.currentItem !== null
+              ? Object.assign({}, state.currentItem)
+              : null,
           currentContext: data[1]
-        }
-      })
-
+        };
+      });
     }
   }
 
@@ -171,7 +170,7 @@ class ContextComponent extends React.Component<
         <td>{item.name}</td>
         <td>{item.context.cluster}</td>
         <td>{item.context.user}</td>
-        <td>{this.checkCurrentContext(item) ? "Active" : ""}</td>
+        <td>{this.checkCurrentContext(item) ? 'Active' : ''}</td>
       </tr>
     ));
 

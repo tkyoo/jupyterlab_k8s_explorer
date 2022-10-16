@@ -19,7 +19,7 @@ class KubernetesMainComponent extends React.Component<MainProps, MainState> {
   constructor(prop: MainProps) {
     super(prop);
     this.state = {
-      currentMenu: "context"
+      currentMenu: 'context'
     };
   }
 
