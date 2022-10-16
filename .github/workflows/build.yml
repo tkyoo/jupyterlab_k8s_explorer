@@ -3,6 +3,7 @@ name: Build
 on:
   push:
     branches: main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -46,6 +47,13 @@ jobs:
         pip install build
         python -m build
         pip uninstall -y "jupyterlab_k8s_explorer" jupyterlab
+
+    - name: Test PyPi
+      run: |
+        twine upload --repository testpypi dist/*
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
 
     - name: Upload extension packages
       uses: actions/upload-artifact@v2
