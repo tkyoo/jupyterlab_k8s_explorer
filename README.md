@@ -1,7 +1,11 @@
 # jupyterlab_k8s_explorer
 
 [![Github Actions Status](https://github.com/tkyoo/jupyterlab_k8s_explorer/workflows/Build/badge.svg)](https://github.com/tkyoo/jupyterlab_k8s_explorer/actions/workflows/build.yml)[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/tkyoo/jupyterlab_k8s_explorer/main?urlpath=lab)
+\
 A JupyterLab extension for exploring and managing k8s resources
+
+<img src="./.github/images/example.png" width="800px" height="300px">
+
 
 ## Requirements
 
@@ -21,6 +25,19 @@ To remove the extension, execute:
 
 ```bash
 pip uninstall jupyterlab_k8s_explorer
+```
+
+## How to Use?
+<img src="./.github/images/views.png" width="250px" height="400px">
+
+```
+View -> Kubernetes Explorere
+```
+
+Or
+
+```
+Activate Command Palette (Ctrl + Shift + C) -> Kubernetes Explorer
 ```
 
 ## Contributing
